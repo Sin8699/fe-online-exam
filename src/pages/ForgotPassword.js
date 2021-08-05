@@ -119,8 +119,19 @@ export default function ForgotPassword() {
                 type="submit"
                 variant="contained"
                 loading={isSubmitting}
+                sx={{ my: 2 }}
               >
                 Login
+              </LoadingButton>
+              <LoadingButton
+                fullWidth
+                size="large"
+                type="button"
+                variant="outlined"
+                loading={isSubmitting}
+                href="/"
+              >
+                Back
               </LoadingButton>
             </Form>
           </FormikProvider>
