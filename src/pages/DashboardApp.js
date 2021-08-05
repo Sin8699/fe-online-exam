@@ -1,7 +1,7 @@
 // material
-import { Box, Grid, Container, Typography } from '@material-ui/core';
+import { Box, Grid, Container, Typography } from "@material-ui/core";
 // components
-import Page from '../components/Page';
+import Page from "../components/Page";
 import {
   AppTasks,
   AppNewUsers,
@@ -14,14 +14,14 @@ import {
   AppWebsiteVisits,
   AppTrafficBySite,
   AppCurrentSubject,
-  AppConversionRates
-} from '../components/_dashboard/app';
+  AppConversionRates,
+} from "../components/_dashboard/app";
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
   return (
-    <Page title="Dashboard | Minimal-UI">
+    <Page title="Dashboard | Online Exam-UI">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
           <Typography variant="h4">Hi, Welcome back</Typography>

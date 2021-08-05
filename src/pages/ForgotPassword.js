@@ -7,8 +7,11 @@ import AuthLayout from "../layouts/AuthLayout";
 // components
 import Page from "../components/Page";
 import { MHidden } from "../components/@material-extend";
-import { LoginForm } from "../components/authentication/login";
-import AuthSocial from "../components/authentication/AuthSocial";
+import { TextField } from "@material-ui/core";
+import { useFormik, Form, FormikProvider } from "formik";
+import { LoadingButton } from "@material-ui/lab";
+
+import * as Yup from "yup";
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +42,25 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function ForgotPassword() {
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Email must be a valid email address")
+      .required("Email is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: LoginSchema,
+    onSubmit: () => {
+      // navigate("/dashboard", { replace: true });
+    },
+  });
+
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+
   return (
     <RootStyle title="Login | Online Exam-UI">
       <AuthLayout>
@@ -57,7 +78,7 @@ export default function Login() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Hi, Welcome Back
+            Ohhhh!!!!
           </Typography>
           <img src="/static/illustrations/illustration_login.png" alt="login" />
         </SectionStyle>
@@ -67,24 +88,42 @@ export default function Login() {
         <ContentStyle>
           <Stack sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Sign in to Online Exam
+              Forgot Password?
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              Enter your details below.
+              Enter your email and we will send you instruction to reset your
+              password.
             </Typography>
           </Stack>
-          <AuthSocial />
-
-          <LoginForm />
-
-          <MHidden width="smUp">
-            <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-              Don’t have an account?&nbsp;
-              <Link variant="subtitle2" component={RouterLink} to="register">
-                Get started
-              </Link>
-            </Typography>
-          </MHidden>
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                sx={{ my: 2 }}
+              >
+                <TextField
+                  fullWidth
+                  autoComplete="username"
+                  type="email"
+                  label="Email address"
+                  {...getFieldProps("email")}
+                  error={Boolean(touched.email && errors.email)}
+                  helperText={touched.email && errors.email}
+                />
+              </Stack>
+              <LoadingButton
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+                loading={isSubmitting}
+              >
+                Login
+              </LoadingButton>
+            </Form>
+          </FormikProvider>
         </ContentStyle>
       </Container>
     </RootStyle>
