@@ -1,16 +1,8 @@
 // material
-import { Box, Grid, Container, Typography } from "@material-ui/core";
+import { Box, Grid, Container, Typography } from '@material-ui/core';
 // components
-import Page from "../components/Page";
-import {
-  AppNewUsers,
-  AppBugReports,
-  AppItemOrders,
-  AppNewsUpdate,
-  AppWeeklySales,
-  AppCurrentSubject,
-  AppConversionRates,
-} from "../components/_dashboard/app";
+import Page from '../components/Page';
+import { AppNewUsers, AppBugReports, AppItemOrders, AppNewsUpdate, AppWeeklySales, AppCurrentSubject, AppConversionRates } from '../components/_dashboard/app';
 
 // ----------------------------------------------------------------------
 
@@ -41,9 +33,9 @@ export default function DashboardApp() {
             <AppConversionRates />
           </Grid>
 
-          {/* <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject />
-          </Grid> */}
+          </Grid>
 
           <Grid item xs={12} md={6} lg={12}>
             <AppNewsUpdate />

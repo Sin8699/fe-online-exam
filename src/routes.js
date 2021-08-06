@@ -13,6 +13,8 @@ import NotFound from './pages/Page404';
 import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
 import TestUserManager from './pages/TestUser';
+import TestKitManage from './pages/TestKit';
+import NewTestKitForm from './pages/NewTestKit';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +28,9 @@ export default function Router() {
         { path: 'profile', element: <Profile /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
-        { path: 'test', element: <TestUserManager /> },
+        { path: 'test-user', element: <TestUserManager /> },
+        { path: 'testkit', element: <TestKitManage /> },
+        { path: 'new-testkit', element: <NewTestKitForm /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
       ],
