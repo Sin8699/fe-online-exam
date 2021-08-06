@@ -1,15 +1,24 @@
-import faker from 'faker';
-import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
-import { formatDistance } from 'date-fns';
-import { Link as RouterLink } from 'react-router-dom';
-import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
+import faker from "faker";
+import PropTypes from "prop-types";
+import { Icon } from "@iconify/react";
+import { formatDistance } from "date-fns";
+import { Link as RouterLink } from "react-router-dom";
+import arrowIosForwardFill from "@iconify/icons-eva/arrow-ios-forward-fill";
 // material
-import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@material-ui/core';
+import {
+  Box,
+  Stack,
+  Link,
+  Card,
+  Button,
+  Divider,
+  Typography,
+  CardHeader,
+} from "@material-ui/core";
 // utils
-import { mockImgCover } from '../../../utils/mockImages';
+import { mockImgCover } from "../../../utils/mockImages";
 //
-import Scrollbar from '../../Scrollbar';
+import Scrollbar from "../../Scrollbar";
 
 // ----------------------------------------------------------------------
 
@@ -19,18 +28,19 @@ const NEWS = [...Array(5)].map((_, index) => {
     title: faker.name.title(),
     description: faker.lorem.paragraphs(),
     image: mockImgCover(setIndex),
-    postedAt: faker.date.soon()
+    postedAt: faker.date.soon(),
+    score: 9,
   };
 });
 
 // ----------------------------------------------------------------------
 
 NewsItem.propTypes = {
-  news: PropTypes.object.isRequired
+  news: PropTypes.object.isRequired,
 };
 
 function NewsItem({ news }) {
-  const { image, title, description, postedAt } = news;
+  const { image, title, description, score } = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -46,12 +56,15 @@ function NewsItem({ news }) {
             {title}
           </Typography>
         </Link>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+        <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
           {description}
         </Typography>
       </Box>
-      <Typography variant="caption" sx={{ pr: 3, flexShrink: 0, color: 'text.secondary' }}>
-        {formatDistance(postedAt, new Date())}
+      <Typography
+        variant="caption"
+        sx={{ pr: 3, flexShrink: 0, color: "text.secondary" }}
+      >
+        {score}
       </Typography>
     </Stack>
   );
@@ -60,7 +73,7 @@ function NewsItem({ news }) {
 export default function AppNewsUpdate() {
   return (
     <Card>
-      <CardHeader title="News Update" />
+      <CardHeader title="My test" />
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
@@ -72,7 +85,7 @@ export default function AppNewsUpdate() {
 
       <Divider />
 
-      <Box sx={{ p: 2, textAlign: 'right' }}>
+      <Box sx={{ p: 2, textAlign: "right" }}>
         <Button
           to="#"
           size="small"
