@@ -76,7 +76,7 @@ const ChangePassword = (props) => {
           }}
         >
           <Button color="primary" variant="contained">
-            Save details
+            Save
           </Button>
         </Box>
       </Card>

@@ -9,14 +9,14 @@ import {
   Typography,
 } from "@material-ui/core";
 import faker from "faker";
-import { fDate } from "../../utils/formatTime";
+
+import React from "react";
+import Upload from "rc-upload";
 const user = {
   avatar: faker.image.avatar(),
-  city: "Los Angeles",
+  email: "demo@devias.io",
   country: "USA",
-  jobTitle: "Senior Developer",
   name: "Katarina Smith",
-  timezone: "GTM-7",
 };
 
 const AccountProfile = (props) => (
@@ -40,17 +40,34 @@ const AccountProfile = (props) => (
           {user.name}
         </Typography>
         <Typography color="textSecondary" variant="body1">
-          {`${user.city} ${user.country}`}
-        </Typography>
-        <Typography color="textSecondary" variant="body1">
-          {`${fDate(new Date())} ${user.timezone}`}
+          {user.email}
         </Typography>
       </Box>
     </CardContent>
     <Divider />
     <CardActions>
       <Button color="primary" fullWidth variant="text">
-        Upload picture
+        <Upload
+          multiple={false}
+          action={() => {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve("/upload.do");
+              }, 2000);
+            });
+          }}
+          onStart={(file) => {
+            console.log("onStart", file, file.name);
+          }}
+          onSuccess={(ret) => {
+            console.log("onStart", ret);
+          }}
+          onError={(file) => {
+            console.log("onStart", file, file.name);
+          }}
+        >
+          Upload avt
+        </Upload>
       </Button>
     </CardActions>
   </Card>
