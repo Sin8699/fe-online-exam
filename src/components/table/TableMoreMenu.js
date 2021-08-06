@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
 import editFill from '@iconify/icons-eva/edit-fill';
@@ -9,7 +10,17 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@materia
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+TableMoreMenu.propTypes = {
+  order: PropTypes.oneOf(['asc', 'desc']),
+  orderBy: PropTypes.string,
+  rowCount: PropTypes.number,
+  headLabel: PropTypes.array,
+  numSelected: PropTypes.number,
+  onRequestSort: PropTypes.func,
+  onSelectAllClick: PropTypes.func,
+};
+
+export default function TableMoreMenu() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,7 +35,7 @@ export default function UserMoreMenu() {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: '100%' }
+          sx: { width: 200, maxWidth: '100%' },
         }}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
