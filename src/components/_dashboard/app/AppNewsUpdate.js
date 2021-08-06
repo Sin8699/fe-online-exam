@@ -1,7 +1,6 @@
 import faker from "faker";
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
-import { formatDistance } from "date-fns";
 import { Link as RouterLink } from "react-router-dom";
 import arrowIosForwardFill from "@iconify/icons-eva/arrow-ios-forward-fill";
 // material
