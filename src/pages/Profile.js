@@ -1,34 +1,35 @@
-// material
-import { Container } from "@material-ui/core";
-// components
+import { Box, Container, Grid } from "@material-ui/core";
+import AccountProfile from "../components/account/AccountProfile";
+import AccountProfileDetails from "../components/account/AccountProfileDetails";
+import ChangePassword from "../components/account/ChangePassword";
 import Page from "../components/Page";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import { Icon } from "@iconify/react";
-import React, { useState } from "react";
-import plusFill from "@iconify/icons-eva/plus-fill";
+
 // ----------------------------------------------------------------------
 
 export default function Profile() {
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
-    <Page title="Dashboard | Online Exam-UI">
-      <Container maxWidth="xl">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="icon tabs example"
-        >
-          <Tab icon={<Icon icon={plusFill} />} aria-label="phone" />
-          <Tab icon={<Icon icon={plusFill} />} aria-label="favorite" />
-          <Tab icon={<Icon icon={plusFill} />} aria-label="person" />
-        </Tabs>
-      </Container>
+    <Page title="Dashboard | Profile | Online Exam-UI">
+      <Box
+        sx={{
+          backgroundColor: "background.default",
+          minHeight: "100%",
+          py: 3,
+        }}
+      >
+        <Container maxWidth="lg">
+          <Grid container spacing={3}>
+            <Grid item lg={4} md={6} xs={12}>
+              <AccountProfile />
+            </Grid>
+            <Grid item lg={8} md={6} xs={12}>
+              <AccountProfileDetails />
+            </Grid>
+            <Grid item lg={12} md={6} xs={12}>
+              <ChangePassword />
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
     </Page>
   );
 }
