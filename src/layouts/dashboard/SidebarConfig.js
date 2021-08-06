@@ -4,7 +4,10 @@ import peopleFill from '@iconify/icons-eva/people-fill';
 import bookOpenFill from '@iconify/icons-eva/book-open-fill';
 import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
 import fileTextFill from '@iconify/icons-eva/file-text-fill';
+<<<<<<< HEAD
 import folderFill from '@iconify/icons-eva/folder-fill';
+=======
+>>>>>>> 29af4b946ea913cc8150e44d15bd15b426ee3fa1
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +20,7 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill),
   },
   {
+<<<<<<< HEAD
     title: 'testkit',
     path: '/dashboard/testkit',
     icon: getIcon(folderFill),
@@ -24,6 +28,10 @@ const sidebarConfig = [
   {
     title: 'test user',
     path: '/dashboard/test-user',
+=======
+    title: 'test user',
+    path: '/dashboard/test',
+>>>>>>> 29af4b946ea913cc8150e44d15bd15b426ee3fa1
     icon: getIcon(bookOpenFill),
   },
   {
