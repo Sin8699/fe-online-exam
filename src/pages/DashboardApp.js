@@ -37,13 +37,13 @@ export default function DashboardApp() {
           </Grid>
           {/*================================================ ADMIN */}
 
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={12}>
             <AppConversionRates />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={6} lg={12}>
             <AppNewsUpdate />
