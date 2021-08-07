@@ -1,79 +1,27 @@
-import { useFormik } from "formik";
-import { useState } from "react";
+// import { useFormik } from "formik";
+// import { useState } from "react";
 // material
-import { Container, Stack, Typography } from "@material-ui/core";
+import { Container, Typography, Card } from "@material-ui/core";
 // components
 import Page from "../components/Page";
-import {
-  ProductSort,
-  ProductList,
-  ProductCartWidget,
-  ProductFilterSidebar,
-} from "../components/_dashboard/products";
-//
-import PRODUCTS from "../_mocks_/products";
+// import PRODUCTS from "../_mocks_/products";
+import TemplateExam from '../components/templateExam';
 
 // ----------------------------------------------------------------------
 
 export default function EcommerceShop() {
-  const [openFilter, setOpenFilter] = useState(false);
-
-  const formik = useFormik({
-    initialValues: {
-      gender: "",
-      category: "",
-      colors: "",
-      priceRange: "",
-      rating: "",
-    },
-    onSubmit: () => {
-      setOpenFilter(false);
-    },
-  });
-
-  const { resetForm, handleSubmit } = formik;
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
-
-  const handleResetFilter = () => {
-    handleSubmit();
-    resetForm();
-  };
-
   return (
-    <Page title="Dashboard: Products | Online Exam-UI">
+    <Page title="Online Exam-UI">
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Products
+          Online Exam-UI
         </Typography>
+        <Card>
+          <TemplateExam />
 
-        <Stack
-          direction="row"
-          flexWrap="wrap-reverse"
-          alignItems="center"
-          justifyContent="flex-end"
-          sx={{ mb: 5 }}
-        >
-          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <ProductFilterSidebar
-              formik={formik}
-              isOpenFilter={openFilter}
-              onResetFilter={handleResetFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-            />
-            <ProductSort />
-          </Stack>
-        </Stack>
-
-        <ProductList products={PRODUCTS} />
-        <ProductCartWidget />
+          {/* <ProductList products={PRODUCTS} /> */}
+          {/* <ProductCartWidget /> */}
+        </Card>
       </Container>
     </Page>
   );
