@@ -1,34 +1,8 @@
-# fe-online-exam
+# Subject
 Quản lý qui trình phần mềm
-
-
-# TEMPLATE
-## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
-
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
-
-> Free React Admin Dashboard made with Material-UI components and React.
+## Online exam https://online-exam-2021.herokuapp.com/
 
 ![preview](public/static/preview.png)
-
-| [Minimal Free](https://minimal-kit-react.vercel.app/) | [Minimal](https://material-ui.com/store/items/minimal-dashboard/) |
-| ----------------------------------------------------- | :---------------------------------------------------------------- |
-| **7** Demo pages                                      | **40** demo pages                                                 |
-| -                                                     | ✓ Multi-language                                                  |
-| -                                                     | ✓ Dark/Light Mode 🌓                                              |
-| -                                                     | ✓ [More components](https://minimals.cc/components)               |
-| -                                                     | ✓ TypeScript version                                              |
-| -                                                     | ✓ Design files (Figma & Sketch)                                   |
-
-## Page demo
-
-- [Dashboard](https://minimal-kit-react.vercel.app/dashboard/app)
-- [Users](https://minimal-kit-react.vercel.app/dashboard/user)
-- [Product](https://minimal-kit-react.vercel.app/dashboard/products)
-- [Blog](https://minimal-kit-react.vercel.app/dashboard/blog)
-- [Login](https://minimal-kit-react.vercel.app/login)
-- [Register](https://minimal-kit-react.vercel.app/register)
-- [Not Found](https://minimal-kit-react.vercel.app/404)
 
 ## Getting started
 
@@ -42,5 +16,4 @@ Distributed under the MIT License. See [LICENSE](https://github.com/minimal-ui-k
 
 ## Contact us
 
-Email Us: support@minimals.cc
-
+Email Us: onlineexam@gmail.com
