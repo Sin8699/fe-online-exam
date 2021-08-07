@@ -47,8 +47,8 @@ export default function BasicGrid() {
       <Box sx={{ flexGrow: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={12}>
-            <Item style={{ paddingLeft: "20px" }}>
-              <Typography variant="body2" align="left" sx={{ mt: 3 }}>
+            <Item>
+              <Typography variant="body2" align="left">
                 <h2>Môn: Quản lý Yêu cầu phần mềm</h2>
                 <h3>Đề thi cuối môn</h3>
               </Typography>
