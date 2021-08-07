@@ -13,7 +13,6 @@ import TestUserManager from './pages/TestUser';
 import NotFound from './pages/Page404';
 import ForgotPassword from './pages/ForgotPassword';
 import Profile from './pages/Profile';
-import TestUserManager from './pages/TestUser';
 import TestKitManage from './pages/TestKit';
 import NewTestKitForm from './pages/NewTestKit';
 
@@ -29,13 +28,9 @@ export default function Router() {
         { path: 'profile', element: <Profile /> },
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
-<<<<<<< HEAD
         { path: 'test-user', element: <TestUserManager /> },
         { path: 'testkit', element: <TestKitManage /> },
         { path: 'new-testkit', element: <NewTestKitForm /> },
-=======
-        { path: 'test', element: <TestUserManager /> },
->>>>>>> 29af4b946ea913cc8150e44d15bd15b426ee3fa1
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
       ],
@@ -52,10 +47,7 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
-<<<<<<< HEAD
 
-=======
->>>>>>> 29af4b946ea913cc8150e44d15bd15b426ee3fa1
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);
 }

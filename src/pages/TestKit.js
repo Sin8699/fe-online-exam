@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
@@ -13,10 +14,12 @@ import {
   TableContainer,
   TablePagination,
   Menu,
+  Button,
 } from '@material-ui/core';
 // icon
 import { Icon } from '@iconify/react';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import plusFill from '@iconify/icons-eva/plus-fill';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -115,6 +118,9 @@ const TestKitManage = () => {
           <Typography variant="h4" gutterBottom>
             Manage Test kit
           </Typography>
+          <Button variant="contained" component={RouterLink} to="/dashboard/new-testkit" startIcon={<Icon icon={plusFill} />}>
+            New Test kit
+          </Button>
         </Stack>
 
         <Card>
