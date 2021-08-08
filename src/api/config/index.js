@@ -30,10 +30,17 @@ axiosInstance.interceptors.request.use(
 export const login = async (params) => {
   const response = await axiosInstance.post("/api/v1/auths/login", params);
 
-  // save tokens to storage
-  setAuthTokens({
-    accessToken: response.data.data,
-  });
+  const { status, data } = response;
+  const { message = "" } = data;
+  if (status === 200) {
+    // save tokens to storage
+    setAuthTokens({
+      accessToken: data.data,
+    });
+    return data.data;
+  } else {
+    throw new Error(message);
+  }
 };
 
 // 5. Logging out

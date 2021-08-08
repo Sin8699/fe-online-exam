@@ -67,7 +67,7 @@ export default function Login() {
         <ContentStyle>
           <Stack sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Sign in to Online Exam
+              Login to Online Exam
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
               Enter your details below.

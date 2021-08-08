@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 import { login } from "../../../api/config";
+import { toast } from "react-toastify";
 
 // ----------------------------------------------------------------------
 
@@ -37,13 +38,25 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: async ({ email, password }) => {
-      await login({ email, password });
-      navigate("/dashboard", { replace: true });
+      try {
+        await login({ email, password });
+        navigate("/dashboard", { replace: true });
+      } catch (error) {
+        console.log("error", error);
+        toast.error(error.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        });
+      }
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
-    formik;
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
