@@ -11,7 +11,14 @@ const useAxios = ({ url, method, body = null }, autoCallApi = true) => {
       setLoading(true);
       axios[method](url, newBody)
         .then((res) => {
-          setResponse(res.data);
+          const { status, data } = res;
+          const { message = "" } = data;
+
+          if (status === 200 || status === 201) {
+            setResponse(res.data);
+          } else {
+            throw new Error(message);
+          }
         })
         .catch((err) => {
           setError(err);

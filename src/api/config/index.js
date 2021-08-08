@@ -4,7 +4,12 @@ import axios from "axios";
 const BASE_URL = "https://service-deloy.eastus.cloudapp.azure.com/service";
 
 // 1. Create an axios instance that you wish to apply the interceptor to
-const axiosInstance = axios.create({ baseURL: BASE_URL });
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  validateStatus: function (status) {
+    return status < 500; // Resolve only if the status code is less than 500
+  },
+});
 
 // 2. Define token refresh function.
 
