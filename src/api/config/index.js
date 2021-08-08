@@ -1,5 +1,6 @@
 import { setAuthTokens, clearAuthTokens, getAccessToken } from "axios-jwt";
 import axios from "axios";
+import isBefore from "date-fns/isBefore";
 
 const BASE_URL = "https://service-deloy.eastus.cloudapp.azure.com/service";
 
@@ -47,5 +48,24 @@ export const login = async (params) => {
 export const logout = () => {
   clearAuthTokens();
 };
+
+export function isExpired() {
+  const jwtToken = getAccessToken();
+  if (jwtToken) {
+    try {
+      const [, payload] = jwtToken.split(".");
+      const { exp: expires } = JSON.parse(window.atob(payload));
+      if (typeof expires === "number") {
+        const expiresDate = new Date(expires * 1000);
+        if (isBefore(new Date(), expiresDate)) {
+          return false;
+        }
+      }
+    } catch {
+      return true;
+    }
+  }
+  return true;
+}
 
 export default axiosInstance;

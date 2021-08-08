@@ -9,14 +9,16 @@ import ScrollToTop from "./components/ScrollToTop";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "axios-jwt";
+import { isExpired } from "./api/config";
 // ----------------------------------------------------------------------
 
 export default function App() {
   const accessToken = getAccessToken();
+
   const history = useNavigate();
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!accessToken || isExpired()) {
       history("/login");
     }
   }, [accessToken, history]);
