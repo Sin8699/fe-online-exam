@@ -4,19 +4,20 @@ import Router from "./routes";
 import ThemeConfig from "./theme";
 // components
 import ScrollToTop from "./components/ScrollToTop";
-
-// import useAxios from "./hooks/useAxios";
-// import { LOGIN } from "./api/auth";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getAccessToken } from "axios-jwt";
 // ----------------------------------------------------------------------
 
-const ACCOUNT_ADMIN = {
-  email: "admin@localhost.com",
-  password: "ServiceCore!3",
-};
-
 export default function App() {
-  // const { response, loading, fetchData } = useAxios(LOGIN(), false);
+  const accessToken = getAccessToken();
+  const history = useNavigate();
+
+  useEffect(() => {
+    if (!accessToken) {
+      history("/login");
+    }
+  }, [accessToken, history]);
 
   return (
     <ThemeConfig>

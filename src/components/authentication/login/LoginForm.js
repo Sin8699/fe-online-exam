@@ -9,13 +9,12 @@ import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 import {
   Link,
   Stack,
-  Checkbox,
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
+import { login } from "../../../api/config";
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +36,8 @@ export default function LoginForm() {
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
+    onSubmit: async ({ email, password }) => {
+      await login({ email, password });
       navigate("/dashboard", { replace: true });
     },
   });
@@ -89,16 +89,6 @@ export default function LoginForm() {
           justifyContent="space-between"
           sx={{ my: 2 }}
         >
-          <FormControlLabel
-            control={
-              <Checkbox
-                {...getFieldProps("remember")}
-                checked={values.remember}
-              />
-            }
-            label="Remember me"
-          />
-
           <Link
             component={RouterLink}
             variant="subtitle2"

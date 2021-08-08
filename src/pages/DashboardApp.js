@@ -1,12 +1,25 @@
 // material
-import { Box, Grid, Container, Typography } from '@material-ui/core';
+import { Box, Grid, Container, Typography } from "@material-ui/core";
 // components
-import Page from '../components/Page';
-import { AppNewUsers, AppBugReports, AppItemOrders, AppNewsUpdate, AppWeeklySales, AppCurrentSubject, AppConversionRates } from '../components/_dashboard/app';
+import Page from "../components/Page";
+import {
+  AppNewUsers,
+  AppBugReports,
+  AppItemOrders,
+  AppNewsUpdate,
+  AppWeeklySales,
+  AppCurrentSubject,
+  AppConversionRates,
+} from "../components/_dashboard/app";
+
+import { LIST_CLIENT_TEST } from "../api/client-test";
+import useAxios from "../hooks/useAxios";
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  const { response } = useAxios(LIST_CLIENT_TEST());
+  console.log("response", response);
   return (
     <Page title="Dashboard | Online Exam-UI">
       <Container maxWidth="xl">
