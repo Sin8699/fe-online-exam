@@ -18,7 +18,8 @@ export default function App() {
   const history = useNavigate();
 
   useEffect(() => {
-    if (!accessToken || isExpired()) {
+    const { pathname } = window.location;
+    if ((!accessToken || isExpired()) && !pathname.includes("active")) {
       history("/login");
     }
   }, [accessToken, history]);

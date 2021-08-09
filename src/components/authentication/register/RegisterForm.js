@@ -63,7 +63,7 @@ export default function RegisterForm() {
     },
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>

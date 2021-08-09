@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import TestKitManage from "./pages/TestKit";
 import NewTestKitForm from "./pages/NewTestKit";
+import VerifyEmail from "./pages/VerifyEmail";
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function Router() {
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "forgot-password", element: <ForgotPassword /> },
+        { path: "active", element: <VerifyEmail /> },
         { path: "404", element: <NotFound /> },
         { path: "/", element: <Navigate to="/dashboard" /> },
         { path: "*", element: <Navigate to="/404" /> },
