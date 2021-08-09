@@ -21,7 +21,7 @@ export default function App() {
     const { pathname } = window.location;
     if (
       (!accessToken || isExpired()) &&
-      !pathname.includes("active") &&
+      !pathname.includes("confirm-password") &&
       !pathname.includes("reset-password")
     ) {
       history("/login");
