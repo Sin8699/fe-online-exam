@@ -5,7 +5,7 @@ import { ACTIVE_CLIENT } from "../api/client";
 import { useNavigate } from "react-router-dom";
 // material
 import { styled } from "@material-ui/core/styles";
-import { Card, Stack, Container, Typography } from "@material-ui/core";
+import { Card, Container, Typography } from "@material-ui/core";
 // components
 import Page from "../components/Page";
 import { MHidden } from "../components/@material-extend";
