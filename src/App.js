@@ -19,7 +19,11 @@ export default function App() {
 
   useEffect(() => {
     const { pathname } = window.location;
-    if ((!accessToken || isExpired()) && !pathname.includes("active")) {
+    if (
+      (!accessToken || isExpired()) &&
+      !pathname.includes("active") &&
+      !pathname.includes("reset-password")
+    ) {
       history("/login");
     }
   }, [accessToken, history]);
