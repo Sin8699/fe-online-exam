@@ -86,10 +86,10 @@ const ChangePasswordComp = (props) => {
     }
 
     const { location } = window;
-    const { forgotKey, email } = queryString.parse(location.search);
+    const { key, email } = queryString.parse(location.search);
 
     const code = await resetPasswordClient({
-      forgotKey,
+      forgotKey: key,
       email,
       password: newPassword,
     });

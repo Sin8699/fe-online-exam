@@ -44,7 +44,7 @@ export default function Router() {
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "forgot-password", element: <ForgotPassword /> },
-        { path: "active", element: <VerifyEmail /> },
+        { path: "confirm-account", element: <VerifyEmail /> },
         { path: "reset-password", element: <ResetPassword /> },
         { path: "404", element: <NotFound /> },
         { path: "/", element: <Navigate to="/dashboard" /> },

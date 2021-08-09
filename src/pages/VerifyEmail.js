@@ -46,13 +46,10 @@ function VerifyEmail() {
   useEffect(() => {
     (async function () {
       const { location } = window;
-      console.log("location", location);
-      const { activeKey, email } = queryString.parse(location.search);
-      console.log("email", email);
-      console.log("activeKey", activeKey);
+      const { key, email } = queryString.parse(location.search);
 
       const code = await activeClient({
-        activeKey,
+        activeKey: key,
         email,
       });
       console.log("code", code);
