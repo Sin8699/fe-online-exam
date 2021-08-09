@@ -52,7 +52,6 @@ function VerifyEmail() {
         activeKey: key,
         email,
       });
-      console.log("code", code);
 
       if (code === 0) {
         navigate("/login", { replace: true });
