@@ -10,6 +10,9 @@ import { MHidden } from "../components/@material-extend";
 import { TextField } from "@material-ui/core";
 import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@material-ui/lab";
+import useAxios from "../hooks/useAxios";
+import { FORGOT_PASSWORD } from "../api/auth";
+import { toast } from "react-toastify";
 
 import * as Yup from "yup";
 
@@ -43,6 +46,11 @@ const ContentStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ForgotPassword() {
+  const { fetchData: registerClient, loading } = useAxios(
+    FORGOT_PASSWORD(),
+    false
+  );
+
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .email("Email must be a valid email address")
@@ -54,12 +62,26 @@ export default function ForgotPassword() {
       email: "",
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      // navigate("/dashboard", { replace: true });
+    onSubmit: async ({ email }) => {
+      const code = await registerClient({
+        email,
+      });
+
+      if (code === 0) {
+        toast.success("Please check your email", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        });
+      }
     },
   });
 
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, handleSubmit, getFieldProps } = formik;
 
   return (
     <RootStyle title="Login | Online Exam-UI">
@@ -118,17 +140,16 @@ export default function ForgotPassword() {
                 size="large"
                 type="submit"
                 variant="contained"
-                loading={isSubmitting}
+                loading={loading}
                 sx={{ my: 2 }}
               >
-                Login
+                Send
               </LoadingButton>
               <LoadingButton
                 fullWidth
                 size="large"
                 type="button"
                 variant="outlined"
-                loading={isSubmitting}
                 href="/"
               >
                 Back
