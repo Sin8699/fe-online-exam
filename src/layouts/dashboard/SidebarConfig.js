@@ -33,7 +33,7 @@ const sidebarConfig = [
     icon: getIcon(peopleFill),
   },
   {
-    title: 'Exam Online',
+    title: 'product',
     path: '/dashboard/products',
     icon: getIcon(shoppingBagFill),
   },
