@@ -5,7 +5,8 @@ import { alpha, styled } from "@material-ui/core/styles";
 import { Card, Typography } from "@material-ui/core";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";
-
+import { LIST_CLIENT_TEST } from "../../../api/client-test";
+import useAxios from "../../../hooks/useAxios";
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -34,13 +35,17 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppTest({ total = 0 }) {
+export default function AppTest() {
+  const { response: resClientTest } = useAxios(LIST_CLIENT_TEST());
+  const dataTest = (resClientTest || {}).data || [];
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(total)}</Typography>
+      <Typography variant="h3">
+        {fShortenNumber(dataTest.length || 0)}
+      </Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Test
       </Typography>

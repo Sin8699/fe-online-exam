@@ -36,9 +36,9 @@ export const login = async (params) => {
   if (status === 200) {
     // save tokens to storage
     setAuthTokens({
-      accessToken: data.data,
+      accessToken: data.data.token,
     });
-    return data.data;
+    return data.data.token;
   } else {
     throw new Error(message);
   }

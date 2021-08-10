@@ -5,7 +5,8 @@ import { alpha, styled } from "@material-ui/core/styles";
 import { Card, Typography } from "@material-ui/core";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";
-
+import { SUBJECT_LIST } from "../../../api/subject";
+import useAxios from "../../../hooks/useAxios";
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -35,12 +36,17 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppItemOrders({ total = 0 }) {
+  const { response: resSubjects } = useAxios(SUBJECT_LIST());
+  const subjects = (resSubjects || {}).data || [];
+
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={windowsFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(total)}</Typography>
+      <Typography variant="h3">
+        {fShortenNumber(subjects.length || 0)}
+      </Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Subject
       </Typography>

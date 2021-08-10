@@ -6,9 +6,22 @@ import { Box, Card, CardHeader } from "@material-ui/core";
 import { BaseOptionChart } from "../../charts";
 
 // ----------------------------------------------------------------------
+const categories = [
+  "Test 1",
+  "Test 2",
+  "Test 3",
+  "Test 4",
+  "Test 5",
+  "Test 6",
+  "Test 7",
+  "Test 8",
+  "Test 9",
+  "Test 10",
+];
 
-export default function AppConversionRates({ data }) {
-  const { categories = [], points = [] } = data;
+const points = [8, 6, 8.6, 9.8, 1, 2, 7, 5, 4, 8];
+
+export default function AppConversionRates() {
   const chartOptions = merge(BaseOptionChart(), {
     tooltip: {
       marker: { show: false },

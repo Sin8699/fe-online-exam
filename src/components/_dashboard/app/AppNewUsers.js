@@ -5,7 +5,8 @@ import { alpha, styled } from "@material-ui/core/styles";
 import { Card, Typography } from "@material-ui/core";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";
-
+import { CLIENT_LIST } from "../../../api/client";
+import useAxios from "../../../hooks/useAxios";
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -34,13 +35,16 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppNewUsers({ total = 0 }) {
+export default function AppNewUsers() {
+  const { response: resUsers } = useAxios(CLIENT_LIST());
+  const users = (resUsers || {}).data || [];
+
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={appleFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(total)}</Typography>
+      <Typography variant="h3">{fShortenNumber(users.length || 0)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         New Users
       </Typography>
