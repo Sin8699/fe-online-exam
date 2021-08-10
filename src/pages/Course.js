@@ -23,9 +23,9 @@ const SORT_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function Blog() {
+export default function Course() {
   return (
-    <Page title="Dashboard: Blog | Online Exam-UI">
+    <Page title="Dashboard: Course | Online Exam-UI">
       <Container>
         <Stack
           direction="row"
@@ -34,7 +34,7 @@ export default function Blog() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Blog
+            Course
           </Typography>
           <Button
             variant="contained"
@@ -42,7 +42,7 @@ export default function Blog() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            New Post
+            New Course
           </Button>
         </Stack>
 

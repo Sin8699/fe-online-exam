@@ -7,7 +7,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardApp from "./pages/DashboardApp";
 import Products from "./pages/Products";
-import Blog from "./pages/Blog";
+import Subject from "./pages/Subject";
+import Course from "./pages/Course";
 import User from "./pages/User";
 import TestUserManager from "./pages/TestUser";
 import NotFound from "./pages/Page404";
@@ -34,7 +35,8 @@ export default function Router() {
         { path: "testkit", element: <TestKitManage /> },
         { path: "new-testkit", element: <NewTestKitForm /> },
         { path: "products", element: <Products /> },
-        { path: "blog", element: <Blog /> },
+        { path: "subject", element: <Subject /> },
+        { path: "course", element: <Course /> },
       ],
     },
     {
