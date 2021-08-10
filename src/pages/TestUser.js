@@ -93,7 +93,7 @@ const TestUserManager = () => {
 
   const filteredTests = applySortFilter(data, getComparator(order, orderBy), filterName);
 
-  const isUserNotFound = filteredTests.length === 0;
+  const isTestUserNotFound = filteredTests.length === 0;
 
   return (
     <Page title="Manage Test">
@@ -156,7 +156,7 @@ const TestUserManager = () => {
                     );
                   })}
                 </TableBody>
-                {isUserNotFound && (
+                {isTestUserNotFound && (
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
