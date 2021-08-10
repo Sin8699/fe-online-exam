@@ -6,8 +6,7 @@ import {
   AppNewUsers,
   AppBugReports,
   AppItemOrders,
-  AppNewsUpdate,
-  AppWeeklySales,
+  AppTest,
   AppCurrentSubject,
   AppConversionRates,
 } from "../components/_dashboard/app";
@@ -29,7 +28,7 @@ export default function DashboardApp() {
         <Grid container spacing={3}>
           {/*================================================ ADMIN */}
           <Grid item xs={12} sm={6} md={3}>
-            <AppWeeklySales />
+            <AppTest />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppNewUsers />
@@ -48,10 +47,6 @@ export default function DashboardApp() {
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={12}>
-            <AppNewsUpdate />
           </Grid>
         </Grid>
       </Container>
