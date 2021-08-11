@@ -37,7 +37,7 @@ export default function DashboardApp() {
                 <AppItemOrders />
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <AppBugReports total={3} />
+                <AppBugReports />
               </Grid>
             </>
           )}
