@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import * as Yup from 'yup';
 //material
-import { DialogTitle, DialogContent, DialogActions, Button, Grid, TextField } from '@material-ui/core';
+import { DialogTitle, DialogContent, DialogActions, Button, Grid, TextField, MenuItem } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 import { styled } from '@material-ui/styles';
 //icon
@@ -22,7 +22,7 @@ const CourseModal = ({ onClose, onSuccess, typeModal, selectedItem }) => {
   const initValue = { name: '', description: '', status: '' };
 
   const { fetchData: createCourse, loading: create_loading } = useAxios(CREATE_COURSE(), false);
-  const { fetchData: updateCourse, loading: update_loading } = useAxios(UPDATE_COURSE(), false);
+  const { fetchData: updateCourse, loading: update_loading } = useAxios(UPDATE_COURSE(selectedItem?.id), false);
 
   const CourseSchema = Yup.object().shape({
     name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name required'),
@@ -72,7 +72,14 @@ const CourseModal = ({ onClose, onSuccess, typeModal, selectedItem }) => {
                 {...getFieldProps('status')}
                 error={Boolean(touched.status && errors.status)}
                 helperText={touched.status && errors.status}
-              />
+                select
+              >
+                {['draft', 'open', 'closed'].map((status) => (
+                  <MenuItem key={status} value={status}>
+                    {status}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item xs={12}>
               <TextField

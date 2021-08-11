@@ -46,7 +46,7 @@ export default function Subject() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('score');
+  const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [itemSelected, setItemSelected] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);

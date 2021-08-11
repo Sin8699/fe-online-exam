@@ -11,13 +11,13 @@ export const CREATE_COURSE = (body) => ({
   body: body,
 });
 
-export const UPDATE_COURSE = (body) => ({
+export const UPDATE_COURSE = (id, body) => ({
   method: METHOD.PUT,
-  url: `/api/v1/courses/${body?.id}`,
+  url: `/api/v1/courses/${id}`,
   body: body,
 });
 
-export const DELETE_COURSE = (body) => ({
+export const DELETE_COURSE = (id) => ({
   method: METHOD.DELETE,
-  url: `/api/v1/courses/${body?.id}`,
+  url: `/api/v1/courses/${id}`,
 });

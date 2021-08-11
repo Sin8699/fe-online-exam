@@ -1,8 +1,8 @@
-import { useEffect, useState /* useCallback  */ } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 //icon
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-//import slashFill from '@iconify/icons-eva/slash-fill';
+import slashFill from '@iconify/icons-eva/slash-fill';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
 import {
@@ -10,7 +10,7 @@ import {
   Menu,
   Table,
   Stack,
-  //Dialog,
+  Dialog,
   Button,
   TableRow,
   Container,
@@ -26,44 +26,69 @@ import Page from '../components/Page';
 import Loader from '../components/Loader';
 import Scrollbar from '../components/Scrollbar';
 import MenuAction from '../components/MenuAction';
-//import CourseModal from '../components/Modal/course';
+import CourseModal from '../components/Modal/course';
 import SearchNotFound from '../components/SearchNotFound';
-//import DialogConfirmAction from '../components/ConfirmAction';
+import DialogConfirmAction from '../components/ConfirmAction';
 import { TableListHead, TableListToolbar } from '../components/table';
 //helpers
-//import useAxios from '../hooks/useAxios';
+import useAxios from '../hooks/useAxios';
 import { getComparator, applySortFilter } from '../utils/filter';
 import { renderAction } from '../utils/MenuAction/actionCourse';
 //constant
-//import { TYPE_MODAL } from '../constants/modal';
+import { TYPE_MODAL } from '../constants/modal';
 import TABLE_HEAD from '../constants/TableHead/course';
 //api
+import { COURSE_LIST, DELETE_COURSE } from '../api/course';
 
 // ----------------------------------------------------------------------
 
 export default function Course() {
   const [data, setData] = useState([]);
-  useEffect(() => {
-    setData([]);
-  }, []);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [itemSelected, setItemSelected] = useState({});
-  console.log('itemSelected: ', itemSelected);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = useState(null);
-  // const [showModal, setShowModal] = useState(false);
-  //const [typeModal, setTypeModal] = useState();
-  //const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [typeModal, setTypeModal] = useState();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const { response, loading, fetchData: getData } = useAxios(COURSE_LIST(), true);
+
+  useEffect(() => {
+    setData(response?.data || []);
+  }, [response, data]);
+
+  const onSuccessAction = async () => {
+    await getData();
+  };
+
+  const onShowModal = (type) => {
+    setShowModal(true);
+    setAnchorEl(null);
+    setTypeModal(type);
+  };
+
+  const onCloseModal = useCallback(() => {
+    setShowModal(false);
+  }, []);
+  const { loading: deleteLoading, fetchData: deleteCourse } = useAxios(DELETE_COURSE(itemSelected?.id), false);
+  const handleDelete = async () => {
+    const code = await deleteCourse();
+    setConfirmDelete(false);
+    if (code === 0) onSuccessAction();
+  };
 
   const listActions = renderAction({
     onEdit: () => {
       setAnchorEl(null);
+      onShowModal(TYPE_MODAL.Edit);
     },
     onDelete: () => {
       setAnchorEl(null);
+      setConfirmDelete(true);
     },
   });
 
@@ -111,6 +136,7 @@ export default function Course() {
             variant="contained"
             startIcon={<Icon icon={plusFill} />}
             onClick={() => {
+              onShowModal(TYPE_MODAL.Create);
               setItemSelected();
             }}
           >
@@ -126,14 +152,14 @@ export default function Course() {
                 <TableListHead order={order} orderBy={orderBy} headLabel={TABLE_HEAD} onRequestSort={handleRequestSort} />
 
                 <TableBody>
-                  {1 === 2 && (
+                  {loading && (
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Loader />
                       </TableCell>
                     </TableRow>
                   )}
-                  {data.length !== 0 &&
+                  {!loading &&
                     filteredCourse.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                       const { id, name, description, status } = row;
                       return (
@@ -161,14 +187,14 @@ export default function Course() {
                       </TableCell>
                     </TableRow>
                   )}
-                  {/* {data.length === 0 && !loading && (
+                  {data.length === 0 && !loading && (
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Icon icon={slashFill} style={{ fontSize: 50 }} />
                         <p style={{ fontSize: 20 }}>No data</p>
                       </TableCell>
                     </TableRow>
-                  )} */}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -185,6 +211,10 @@ export default function Course() {
           />
         </Card>
       </Container>
+      <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={onCloseModal}>
+        <CourseModal onClose={onCloseModal} onSuccess={onSuccessAction} typeModal={typeModal} selectedItem={itemSelected} />
+      </Dialog>
+      <DialogConfirmAction open={confirmDelete} onClose={() => setConfirmDelete(false)} onSubmit={handleDelete} isLoading={deleteLoading} />
     </Page>
   );
 }
