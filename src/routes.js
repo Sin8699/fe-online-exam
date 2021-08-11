@@ -9,6 +9,7 @@ import DashboardApp from "./pages/DashboardApp";
 import Products from "./pages/Products";
 import Subject from "./pages/Subject";
 import Course from "./pages/Course";
+import FindExamSubject from "./pages/FindExamSubject";
 import User from "./pages/User";
 import TestUserManager from "./pages/TestUser";
 import NotFound from "./pages/Page404";
@@ -37,6 +38,7 @@ export default function Router() {
         { path: "products", element: <Products /> },
         { path: "subject", element: <Subject /> },
         { path: "course", element: <Course /> },
+        { path: "find-exam-subject", element: <FindExamSubject /> },
       ],
     },
     {
