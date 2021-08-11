@@ -68,6 +68,7 @@
     "react-helmet-async": "^1.0.9",
     "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "^4.0.0",
+    "react-to-print": "^2.13.0",
     "react-toastify": "^7.0.4",
     "simplebar": "^5.3.5",
     "simplebar-react": "^2.3.5",
