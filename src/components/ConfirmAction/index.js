@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
+import { LoadingButton } from '@material-ui/lab';
 
-const DialogConfirmAction = ({ open, onClose, onSubmit }) => {
+const DialogConfirmAction = ({ open, onClose, onSubmit, isLoading }) => {
   return (
     <Dialog maxWidth="xs" fullWidth open={open} onClose={onClose}>
       <DialogTitle>Are you sure</DialogTitle>
@@ -8,9 +9,9 @@ const DialogConfirmAction = ({ open, onClose, onSubmit }) => {
         <Button color="secondary" onClick={onClose}>
           Cancel
         </Button>
-        <Button onClick={onSubmit} autoFocus>
+        <LoadingButton loading={isLoading} onClick={onSubmit} autoFocus>
           Agree
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

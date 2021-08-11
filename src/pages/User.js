@@ -145,6 +145,7 @@ export default function User() {
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <TableListHead
+                  isSelectedAll
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
