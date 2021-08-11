@@ -43,7 +43,7 @@ const listQuestion = [
 
 export default function BasicGrid() {
   const getData = () => {
-    setData();
+    // setData();
   };
 
   useEffect(() => {
