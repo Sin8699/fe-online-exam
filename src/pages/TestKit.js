@@ -118,7 +118,7 @@ const TestKitManage = () => {
           <Typography variant="h4" gutterBottom>
             Manage Test kit
           </Typography>
-          <Button variant="contained" component={RouterLink} to="/dashboard/new-testkit" startIcon={<Icon icon={plusFill} />}>
+          <Button variant="contained" component={RouterLink} to={`/dashboard/edittestkit/${'qwe'}`} startIcon={<Icon icon={plusFill} />}>
             New Test kit
           </Button>
         </Stack>
