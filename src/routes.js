@@ -3,22 +3,22 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
+import DashboardApp from './pages/DashboardApp';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import DashboardApp from './pages/DashboardApp';
-import TestExam from './pages/TestExam';
-import Subject from './pages/Subject';
-import Course from './pages/Course';
-import FindExamSubject from './pages/FindExamSubject';
 import User from './pages/User';
-import TestUserManager from './pages/TestUser';
-import NotFound from './pages/Page404';
-import ForgotPassword from './pages/ForgotPassword';
+import Course from './pages/Course';
+import Subject from './pages/Subject';
 import Profile from './pages/Profile';
+import TestExam from './pages/TestExam';
 import TestKitManage from './pages/TestKit';
-import NewTestKitForm from './pages/NewTestKit';
+import TestKitForm from './pages/EditTestKit';
 import VerifyEmail from './pages/VerifyEmail';
+import TestUserManager from './pages/TestUser';
 import ResetPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/ForgotPassword';
+import FindExamSubject from './pages/FindExam';
+import NotFound from './pages/Page404';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'test-user', element: <TestUserManager /> },
         { path: 'testkit', element: <TestKitManage /> },
-        { path: 'new-testkit', element: <NewTestKitForm /> },
+        { path: 'edittestkit/:slug', element: <TestKitForm /> },
         { path: 'test-exam', element: <TestExam /> },
         { path: 'subject', element: <Subject /> },
         { path: 'course', element: <Course /> },
