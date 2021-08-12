@@ -1,11 +1,12 @@
 import { Icon } from '@iconify/react';
-import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
-import peopleFill from '@iconify/icons-eva/people-fill';
-import bookOpenFill from '@iconify/icons-eva/book-open-fill';
-import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
-import bookmarkFill from '@iconify/icons-eva/bookmark-fill';
-import folderFill from '@iconify/icons-eva/folder-fill';
 import bookFill from '@iconify/icons-eva/book-fill';
+import peopleFill from '@iconify/icons-eva/people-fill';
+import folderFill from '@iconify/icons-eva/folder-fill';
+import searchFill from '@iconify/icons-eva/search-fill';
+import bookmarkFill from '@iconify/icons-eva/bookmark-fill';
+import bookOpenFill from '@iconify/icons-eva/book-open-fill';
+import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill';
+import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +51,7 @@ const sidebarConfig = [
   {
     title: 'find exam subject',
     path: '/dashboard/find-exam-subject',
-    icon: getIcon(bookFill),
+    icon: getIcon(searchFill),
   },
 ];
 
