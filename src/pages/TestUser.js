@@ -33,7 +33,7 @@ import { getComparator, applySortFilter } from '../utils/filter';
 import TABLE_HEAD from '../constants/TableHead/test';
 
 //mock_data
-import TEST_LIST from '../_mocks_/test';
+import TEST_LIST from '../_mocks_/test-user';
 
 //----------------------------------------------------------------
 

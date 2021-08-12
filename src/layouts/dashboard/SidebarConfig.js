@@ -34,7 +34,7 @@ const sidebarConfig = [
   },
   {
     title: 'Online Exam',
-    path: '/dashboard/products',
+    path: '/dashboard/test-exam',
     icon: getIcon(shoppingBagFill),
   },
   {
