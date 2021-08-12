@@ -12,7 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({ ...theme.typography.body2, textAlig
 
 const InfoTestExam = ({ name, subject, countQuestion, time }) => {
   return (
-    <Card style={{ margin: 10 }}>
+    <Card style={{ margin: '10px 0' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
         <p>{subject}</p>
         <Stack
