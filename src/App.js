@@ -12,6 +12,8 @@ import { getAccessToken } from "axios-jwt";
 import { isExpired } from "./api/config";
 // ----------------------------------------------------------------------
 
+const NOT_CHECK_TOKEN = ["confirm-password", "reset-password"];
+
 export default function App() {
   const accessToken = getAccessToken();
 
@@ -21,8 +23,7 @@ export default function App() {
     const { pathname } = window.location;
     if (
       (!accessToken || isExpired()) &&
-      !pathname.includes("confirm-password") &&
-      !pathname.includes("reset-password")
+      !NOT_CHECK_TOKEN.some((route) => pathname.includes(route))
     ) {
       history("/login");
     }
