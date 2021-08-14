@@ -2,7 +2,8 @@
 import { Container, Typography, Card } from '@material-ui/core';
 // components
 import Page from '../components/Page';
-import TemplateExam from '../components/templateExam';
+import TemplateClientTest from '../components/templateExam';
+import DisplayTimer from '../components/TimerDisplay';
 
 // ----------------------------------------------------------------------
 
@@ -11,10 +12,11 @@ export default function TestExam() {
     <Page title="Online Exam-UI">
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Online Exam-UI
+          Online Exam-UI | Làm bài thi
         </Typography>
+        <DisplayTimer time={60 * 60} />
         <Card>
-          <TemplateExam />
+          <TemplateClientTest />
         </Card>
       </Container>
     </Page>

@@ -1,42 +1,57 @@
-import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { sentenceCase } from 'change-case';
 // material
 import {
   Card,
+  Menu,
   Table,
   Stack,
-  IconButton,
+  Button,
+  Dialog,
   TableRow,
-  TableBody,
+  Snackbar,
   TableCell,
+  TableBody,
   Container,
   Typography,
+  IconButton,
   TableContainer,
   TablePagination,
-  Menu,
-  Button,
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/core/Alert';
 // icon
 import { Icon } from '@iconify/react';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
+import slashFill from '@iconify/icons-eva/slash-fill';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // components
 import Page from '../components/Page';
+import Label from '../components/Label';
+import Loader from '../components/Loader';
 import Scrollbar from '../components/Scrollbar';
 import MenuAction from '../components/MenuAction';
-import DialogConfirmAction from '../components/ConfirmAction';
+import TestKitModal from '../components/Modal/testkit';
 import SearchNotFound from '../components/SearchNotFound';
 import { TableListHead, TableListToolbar, TablePaginationActions } from '../components/table';
 //helper
+import useAxios from '../hooks/useAxios';
+import { find, get } from 'lodash';
 import { renderAction } from '../utils/MenuAction/actionTestKit';
 import { getComparator, applySortFilter } from '../utils/filter';
 //constant
 import TABLE_HEAD from '../constants/TableHead/testkit';
-
-//mock_data
-import TEST_LIST from '../_mocks_/testkit';
+import { TYPE_MODAL } from '../constants/modal';
+//api
+import { TEST_KIT_LIST } from '../api/test-kit';
 
 //----------------------------------------------------------------
+
+const PositionAlert = { vertical: 'top', horizontal: 'center' };
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const TestKitManage = () => {
   const [data, setData] = useState([]);
@@ -44,63 +59,77 @@ const TestKitManage = () => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('id');
   const [filterName, setFilterName] = useState('');
-  const [moreActionSelectedItem, setMoreActionSelectedItem] = useState({});
-  console.log('moreActionSelectedItem: ', moreActionSelectedItem);
+  const [itemSelected, setItemSelected] = useState({});
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [typeModal, setTypeModal] = useState();
+  const [showModal, setShowModal] = useState(false);
 
-  const getData = () => {
-    setData(TEST_LIST);
-  };
+  const { response: dataTestKit, loading, fetchData: getTestKit } = useAxios(TEST_KIT_LIST());
+
+  const { dataSagaCourse } = useSelector((state) => state.courseState);
+  const { dataSagaSubject } = useSelector((state) => state.subjectState);
 
   useEffect(() => {
-    getData();
-  }, []);
+    setData(dataTestKit?.data || []);
+  }, [dataTestKit, data]);
 
+  //sort
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+  const handleFilterByName = (event) => {
+    setFilterName(event.target.value);
+  };
 
+  //page table
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
+  //Alert
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
   };
 
-  const onSuccess = () => {
-    getData();
-  };
-
-  const handleDelete = () => {
-    onSuccess();
-  };
+  //modal
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false);
+    getTestKit();
+  }, [getTestKit]);
 
   const listActions = renderAction({
     onEdit: () => {
       setAnchorEl(null);
+      setTypeModal(TYPE_MODAL.Edit);
+      setShowModal(true);
     },
     onDelete: () => {
       setAnchorEl(null);
-      setConfirmDelete(true);
+      setOpen(true);
     },
   });
 
-  const filteredTestKits = applySortFilter(data, getComparator(order, orderBy), filterName, 'user_id_create');
-
-  const isUserNotFound = filteredTestKits.length === 0;
+  const filteredTestKits = applySortFilter(data, getComparator(order, orderBy), filterName, 'userId');
+  const isTestKitNotFound = filteredTestKits.length === 0;
 
   return (
-    <Page title="Manage Test">
+    <Page title="Test Kit | Online Exam-UI">
+      <Snackbar anchorOrigin={PositionAlert} key={'top-center'} open={open} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+          Forbidden!!!
+        </Alert>
+      </Snackbar>
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -112,58 +141,81 @@ const TestKitManage = () => {
       >
         {anchorEl && <MenuAction listActions={listActions} />}
       </Menu>
-
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Manage Test kit
           </Typography>
-          <Button variant="contained" component={RouterLink} to={`/dashboard/edittestkit/${'qwe'}`} startIcon={<Icon icon={plusFill} />}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setShowModal(true);
+              setItemSelected({});
+              setTypeModal(TYPE_MODAL.Create);
+            }}
+            startIcon={<Icon icon={plusFill} />}
+          >
             New Test kit
           </Button>
         </Stack>
 
         <Card>
           <TableListToolbar filterName={filterName} onFilterName={handleFilterByName} />
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }} style={{ maxHeight: 'calc(100vh - 370px)' }}>
               <Table stickyHeader>
                 <TableListHead isSelectedAll={false} order={order} orderBy={orderBy} headLabel={TABLE_HEAD} onRequestSort={handleRequestSort} />
                 <TableBody>
-                  {filteredTestKits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, user_id_create, description, subject_id, courses_id } = row;
-
-                    return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox">
-                        <TableCell align="left">{id}</TableCell>
-                        <TableCell align="left">{user_id_create}</TableCell>
-                        <TableCell align="left">{description}</TableCell>
-                        <TableCell align="left">{subject_id}</TableCell>
-                        <TableCell align="left">{courses_id}</TableCell>
-                        <TableCell align="right">
-                          <IconButton
-                            onClick={(e) => {
-                              setAnchorEl(e.currentTarget);
-                              setMoreActionSelectedItem(row);
-                            }}
-                          >
-                            <Icon icon={moreVerticalFill} width={20} height={20} />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-                {isUserNotFound && (
-                  <TableBody>
+                  {loading && (
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <Loader />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {!loading &&
+                    filteredTestKits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                      const { id, userId, description, subjectId, courseId, status } = row;
+                      return (
+                        <TableRow hover key={id} tabIndex={-1} role="checkbox">
+                          <TableCell align="left">{String(userId).substr(0, 6)}...</TableCell>
+                          <TableCell align="left">{description}</TableCell>
+                          <TableCell align="left">{get(find(dataSagaSubject, { id: subjectId }), 'name')}</TableCell>
+                          <TableCell align="left">{get(find(dataSagaCourse, { id: courseId }), 'name')}</TableCell>
+                          <TableCell align="left">
+                            <Label variant="ghost" color={status === 'closed' ? 'error' : status === 'draft' ? 'warning' : 'success'}>
+                              {sentenceCase(status)}
+                            </Label>
+                          </TableCell>
+                          <TableCell align="right">
+                            <IconButton
+                              onClick={(e) => {
+                                setAnchorEl(e.currentTarget);
+                                setItemSelected(row);
+                              }}
+                            >
+                              <Icon icon={moreVerticalFill} width={20} height={20} />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {isTestKitNotFound && data.length !== 0 && (
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>
-                  </TableBody>
-                )}
+                  )}
+                  {data.length === 0 && !loading && (
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <Icon icon={slashFill} style={{ fontSize: 50 }} />
+                        <p style={{ fontSize: 20 }}>No data</p>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
@@ -181,7 +233,9 @@ const TestKitManage = () => {
           />
         </Card>
       </Container>
-      <DialogConfirmAction open={confirmDelete} onClose={() => setConfirmDelete(false)} onSubmit={handleDelete} />
+      <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={() => setShowModal(false)}>
+        <TestKitModal onClose={handleCloseModal} selectedItem={itemSelected} typeModal={typeModal} />
+      </Dialog>
     </Page>
   );
 };
