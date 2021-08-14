@@ -12,7 +12,6 @@ import { getAccessToken } from "axios-jwt";
 import { isExpired } from "./api/config";
 // ----------------------------------------------------------------------
 
-f;
 export default function App() {
   const accessToken = getAccessToken();
 

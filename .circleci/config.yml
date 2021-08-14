@@ -1,6 +1,16 @@
 version: 2.1
+jobs:
+  build:
+    docker:
+      - image: 'circleci/node:10'
+    steps:
+      - run: echo "hi"
+      - webhook/notify:
+          endpoint: 'https://studenthcmusedu.webhook.office.com/webhookb2/64f4cb9f-db48-403d-98b6-82a997fcc5e8@40127cd4-45f3-49a3-b05d-315a43a9f033/IncomingWebhook/8cc534bbb90c41cab7edfa56ab72545c/ab0f24bd-0fc0-4a20-9f51-52ff8e728636'
+    working_directory: ~/repo
 orbs:
   heroku: circleci/heroku@1.2.6
+  webhook: eddiewebb/webhook@volatile
 workflows:
   heroku_deploy:
     jobs:
