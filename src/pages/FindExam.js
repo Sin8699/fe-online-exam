@@ -1,23 +1,16 @@
 import * as React from 'react';
-
+import { useSelector } from 'react-redux';
 // material
 import { Stack, Container, Typography, IconButton } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
-
 //icon
 import { Icon } from '@iconify/react';
 import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
-
 // components
 import Page from '../components/Page';
-import Loader from '../components/Loader';
+//import Loader from '../components/Loader';
 import InfoTestExam from '../components/InfoTestExam';
 import ComboBoxAutoComplete from '../components/AutoComplete';
-
-//api
-import useAxios from '../hooks/useAxios';
-import { SUBJECT_LIST } from '../api/subject';
-import { COURSE_LIST } from '../api/course';
 
 //mock_data
 import DATA_MOCK from '../_mocks_/test-exam';
@@ -31,10 +24,7 @@ const ButtonScrollToTop = styled(IconButton)(({ theme }) => ({
   color: '#fff',
   '&:hover': { backgroundColor: theme.palette.success.dark },
   animation: 'fadeIn ease 1.5s',
-  '@keyframes fadeIn': {
-    '0%': { opacity: 0 },
-    '100%': { opacity: 1 },
-  },
+  '@keyframes fadeIn': { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
 }));
 
 const FindExamSubject = () => {
@@ -42,8 +32,8 @@ const FindExamSubject = () => {
   const [valueSubject, setValueSubject] = React.useState(null);
   const [valueCourse, setValueCourse] = React.useState(null);
 
-  const { response: subjects, loading: loadingSubjectList } = useAxios(SUBJECT_LIST());
-  const { response: courses, loading: loadingCourseList } = useAxios(COURSE_LIST());
+  const { dataSagaSubject } = useSelector((state) => state.subjectState);
+  const { dataSagaCourse } = useSelector((state) => state.courseState);
 
   React.useEffect(() => {
     const toggleVisibility = () => {
@@ -75,16 +65,8 @@ const FindExamSubject = () => {
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" mb={5}>
-          {loadingSubjectList && loadingCourseList ? (
-            <div style={{ width: '100%', height: 56 }}>
-              <Loader />
-            </div>
-          ) : (
-            <>
-              <ComboBoxAutoComplete label="Subject" data={subjects?.data} option={valueSubject} onChangeOption={setValueSubject} />
-              <ComboBoxAutoComplete label="Course" data={courses?.data} option={valueCourse} onChangeOption={setValueCourse} />
-            </>
-          )}
+          <ComboBoxAutoComplete label="Subject" data={dataSagaSubject} option={valueSubject} onChangeOption={setValueSubject} />
+          <ComboBoxAutoComplete label="Course" data={dataSagaCourse} option={valueCourse} onChangeOption={setValueCourse} />
         </Stack>
 
         {DATA_MOCK.map((item) => (
