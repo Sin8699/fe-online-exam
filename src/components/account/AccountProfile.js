@@ -20,7 +20,9 @@ const user = {
   name: "Katarina Smith",
 };
 
-const AccountProfile = (props) => (
+const AccountProfile = (props) => {
+  
+  return(
   <Card {...props}>
     <CardContent>
       <Box
@@ -71,7 +73,7 @@ const AccountProfile = (props) => (
         </Upload>
       </Button>
     </CardActions>
-  </Card>
-);
+  </Card>)
+};
 
 export default AccountProfile;
