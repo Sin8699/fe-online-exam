@@ -1,7 +1,17 @@
 version: 2.1
 orbs:
   heroku: circleci/heroku@1.2.6
+  ms-teams: cloudradar-monitoring/ms-teams@1.0.0
 workflows:
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git
+jobs:
+  build:
+    executor: docker
+    steps:
+      - checkout
+      - run: command/to/run/your/tests
+      - ms-teams/report:
+          only_on_fail: true
+          webhook_url: https://studenthcmusedu.webhook.office.com/webhookb2/64f4cb9f-db48-403d-98b6-82a997fcc5e8@40127cd4-45f3-49a3-b05d-315a43a9f033/IncomingWebhook/8cc534bbb90c41cab7edfa56ab72545c/ab0f24bd-0fc0-4a20-9f51-52ff8e728636
