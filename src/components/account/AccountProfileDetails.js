@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -9,6 +9,7 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
+import DateRangePickerViewDesktop from "@material-ui/lab/DateRangePicker/DateRangePickerViewDesktop";
 
 const genders = [
   {
@@ -21,16 +22,8 @@ const genders = [
   },
 ];
 
-const AccountProfileDetails = (props) => {
-  const [values, setValues] = useState({
-    firstName: "Smith",
-    lastName: "Smith",
-    phone: "123",
-    gender: "Alabama",
-    address: "USA",
-    dob: new Date(),
-  });
-  // const [values, setValues] = useState({})
+const AccountProfileDetails = ({ dataProfile }) => {
+  const [values, setValues] = useState({...dataProfile });
 
   const handleChange = (event) => {
     setValues({
@@ -40,7 +33,7 @@ const AccountProfileDetails = (props) => {
   };
 
   return (
-    <form autoComplete="off" noValidate {...props}>
+    <form autoComplete="off" noValidate {...dataProfile}>
       <Card>
         <CardHeader subheader="The information can be edited" title="Profile" />
         <Divider />

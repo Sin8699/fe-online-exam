@@ -7,6 +7,7 @@ import Page from '../components/Page';
 import { GET_INFO_PROFILE_CLIENT, GET_INFO_PROFILE_MANAGER, UPDATE_INFO_PROFILE_CLIENT, UPDATE_INFO_PROFILE_MANAGER } from '../api/auth';
 import checkRole from '../helpers/checkRole';
 import useAxios from '../hooks/useAxios';
+import data from '@iconify/icons-eva/menu-2-fill';
 
 // ----------------------------------------------------------------------
 
@@ -23,15 +24,23 @@ export default function Profile() {
   const { response: profileManager, fetchData: getProfileManager } = useAxios(GET_INFO_PROFILE_MANAGER(), false);
   useEffect(() => {
     (async function () {
-      if (isClient) await getProfileClient();
-      else await getProfileManager();
+      if (isClient) {
+        await getProfileClient();
+      }
+      else {
+        await getProfileManager();
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    setUserInfo(isClient ? profile : profileManager);
+    if(isClient){
+      setUserInfo(profile?.data || {})
+    }else{
+      setUserInfo(profileManager?.data || {})
+    }
   }, [isClient, profile, profileManager]);
-  console.log('userInfo: ', userInfo);
+  
   //---------------------------------------------------------------------------------------------------------------------------
 
   return (
@@ -49,7 +58,7 @@ export default function Profile() {
               <AccountProfile />
             </Grid>
             <Grid item lg={8} md={6} xs={12}>
-              <AccountProfileDetails />
+              <AccountProfileDetails dataProfile={userInfo} />
             </Grid>
             <Grid item lg={12} md={6} xs={12}>
               <ChangePassword />
