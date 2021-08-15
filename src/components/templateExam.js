@@ -1,269 +1,66 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { styled } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import { Grid } from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+//material
+import { styled } from '@material-ui/core/styles';
+import { LoadingButton } from '@material-ui/lab';
+import { Box, Grid, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Container, Typography, Stack } from '@material-ui/core';
 
-import { Container, Box, Button, Typography } from "@material-ui/core";
+//mock
+import data from '../_mocks_/client-test';
 
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+const LabelQuestion = styled(FormLabel)(({ theme }) => ({ margin: theme.spacing(1), color: '#000', fontSize: 22, fontWeight: 'bold' }));
 
-const listQuestion = [
-  {
-    id: "1",
-    question: "Quản lý yêu cầu phần mềm là gì?",
-    answer: ["CauA:..", "CauB: ..."],
-  },
-  {
-    id: "2",
-    question: "Quản lý yêu cầu phần mềm là gì?",
-    answer: ["CauA:..", "CauB: ..."],
-  },
-  {
-    id: "3",
-    question: "Quản lý yêu cầu phần mềm là gì?",
-    answer: ["CauA:..", "CauB: ..."],
-  },
-];
+export default function TemplateClientTest() {
+  let navigate = useNavigate();
 
-export default function BasicGrid() {
-  const getData = () => {
-    // setData();
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  const [test, setTest] = React.useState(false);
+  const [submitLoading, setSubmitLoading] = React.useState(false);
+  React.useEffect(() => {
+    const timer = setTimeout(() => setSubmitLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, [submitLoading]);
+  const handleSubmitExam = () => {
+    setSubmitLoading(true);
+    setTimeout(() => navigate('/dashboard/find-exam-subject'), 3000);
   };
+  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  useEffect(() => {
-    getData();
-  }, []);
   return (
-    <Container fixed>
-      <Box sx={{ flexGrow: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={12}>
-            <Item>
-              <Typography variant="body2" align="left">
-                <h2>Môn: Quản lý Yêu cầu phần mềm</h2>
-                <h3>Đề thi cuối môn</h3>
-              </Typography>
-              <Grid item>
-                <Typography variant="h6" align="right">
-                  Thời gian: <b>29:58</b>
-                  <Button variant="contained" sx={{ ml: 2 }}>
+    <React.Fragment>
+      <Container fixed>
+        <Box sx={{ flexGrow: 2 }}>
+          <Typography variant="h3">Môn: Quản lý Yêu cầu phần mềm</Typography>
+          <Typography variant="h5">Đề thi cuối môn</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
+              <Grid item xs={12}>
+                <Stack direction="row" justifyContent="flex-end" sx={{ py: 1 }}>
+                  <Typography variant="h6" align="right">
+                    Thời gian: 23:59
+                  </Typography>
+                  <LoadingButton variant="contained" sx={{ ml: 2 }} loading={submitLoading} onClick={handleSubmitExam}>
                     Nộp bài
-                  </Button>
-                </Typography>
+                  </LoadingButton>
+                  <LoadingButton onClick={() => setTest(!test)}>test</LoadingButton>
+                </Stack>
               </Grid>
-
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left">
-                  <FormLabel component="legend">
-                    <b>Câu 1: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left" xs={{ mt: 4 }}>
-                  <FormLabel component="legend">
-                    <b>Câu 2: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left" xs={{ mt: 4 }}>
-                  <FormLabel component="legend">
-                    <b>Câu 3: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left" xs={{ mt: 4 }}>
-                  <FormLabel component="legend">
-                    <b>Câu 4: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left" xs={{ mt: 4 }}>
-                  <FormLabel component="legend">
-                    <b>Câu 2: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left" xs={{ mt: 4 }}>
-                  <FormLabel component="legend">
-                    <b>Câu 2: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item align="left">
-                <FormControl component="fieldset" align="left" xs={{ mt: 4 }}>
-                  <FormLabel component="legend">
-                    <b>Câu 2: Quản lý yêu cầu phần mềm là gì?</b>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-label="gender"
-                    defaultValue="female"
-                    name="radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-            </Item>
+              {data.question.map((questionItem) => (
+                <Grid item xs={12} key={questionItem.id} style={{ marginBottom: 20 }}>
+                  <FormControl component="fieldset">
+                    <LabelQuestion component="legend">{`${questionItem.title} (${questionItem.point} điểm)`}</LabelQuestion>
+                    <RadioGroup aria-label="gender" name="radio-buttons-group">
+                      {questionItem.answers.map((answerItem) => (
+                        <FormControlLabel key={answerItem.id} value={answerItem.id} control={<Radio />} label={answerItem.content} />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 }
