@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   Box,
   Button,
@@ -10,6 +10,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import { GET_INFO_PROFILE_CLIENT, GET_INFO_PROFILE_MANAGER, UPDATE_INFO_PROFILE_CLIENT, UPDATE_INFO_PROFILE_MANAGER } from "../../api/auth";
+import checkRole from "../../helpers/checkRole";
+import useAxios from '../../hooks/useAxios';
 
 const genders = [
   {
@@ -31,6 +33,14 @@ const AccountProfileDetails = (props) => {
     address: "USA",
     dob: new Date(),
   });
+  // const [values, setValues] = useState({})
+
+  const { isClient } = checkRole();
+  const { response: profile, loading, fetchData: getProfileClient } = useAxios(GET_INFO_PROFILE_CLIENT());
+
+  useEffect(() => {
+    // fetchDATA();
+  }, []);
 
   const handleChange = (event) => {
     setValues({
