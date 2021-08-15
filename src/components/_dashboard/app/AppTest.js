@@ -5,8 +5,10 @@ import { alpha, styled } from "@material-ui/core/styles";
 import { Card, Typography } from "@material-ui/core";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";
-import { LIST_CLIENT_TEST } from "../../../api/client-test";
+import { LIST_CLIENT_TEST, LIST_CLIENT_TEST_BY_ADMIN } from "../../../api/client-test";
 import useAxios from "../../../hooks/useAxios";
+import checkRole from "../../../helpers/checkRole";
+import { func } from "prop-types";
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -36,7 +38,15 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppTest() {
-  const { response: resClientTest } = useAxios(LIST_CLIENT_TEST());
+  const { isClient } = checkRole();
+  let funca;
+  // let resClientTest;
+  if(isClient)
+    funca = LIST_CLIENT_TEST();
+  else 
+    funca = LIST_CLIENT_TEST_BY_ADMIN();
+    const { response: resClientTest } = useAxios(funca);
+
   const dataTest = (resClientTest || {}).data || [];
   return (
     <RootStyle>
