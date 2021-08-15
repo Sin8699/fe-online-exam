@@ -12,6 +12,7 @@ import faker from "faker";
 
 import React from "react";
 import Upload from "rc-upload";
+import checkRole from "../../helpers/checkRole";
 const user = {
   avatar: faker.image.avatar(),
   email: "demo@devias.io",
