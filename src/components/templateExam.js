@@ -5,15 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
 import { LoadingButton } from '@material-ui/lab';
 import { Box, Grid, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Container, Typography, Stack } from '@material-ui/core';
-import { useState, useEffect } from "react";
-import Paper from "@material-ui/core/Paper";
-import { Grid } from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-
 //mock
 import data from '../_mocks_/client-test';
 
@@ -24,7 +15,7 @@ export default function TemplateClientTest() {
   let navigate = useNavigate();
 
   //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  const [test, setTest] = React.useState(false);
+  // const [test, setTest] = React.useState(false);
   const [submitLoading, setSubmitLoading] = React.useState(false);
   React.useEffect(() => {
     const timer = setTimeout(() => setSubmitLoading(false), 2000);
@@ -46,13 +37,13 @@ export default function TemplateClientTest() {
             <Grid item xs={12} md={12}>
               <Grid item xs={12}>
                 <Stack direction="row" justifyContent="flex-end" sx={{ py: 1 }}>
-                  <Typography variant="h6" align="right">
+                  {/* <Typography variant="h6" align="right">
                     Thời gian: 23:59
-                  </Typography>
+                  </Typography> */}
                   <LoadingButton variant="contained" sx={{ ml: 2 }} loading={submitLoading} onClick={handleSubmitExam}>
                     Nộp bài
                   </LoadingButton>
-                  <LoadingButton onClick={() => setTest(!test)}>test</LoadingButton>
+                  {/* <LoadingButton onClick={() => setTest(!test)}>test</LoadingButton> */}
                 </Stack>
               </Grid>
               {data.question.map((questionItem) => (

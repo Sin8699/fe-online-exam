@@ -9,6 +9,7 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
+import { GET_INFO_PROFILE_CLIENT, GET_INFO_PROFILE_MANAGER, UPDATE_INFO_PROFILE_CLIENT, UPDATE_INFO_PROFILE_MANAGER } from "../../api/auth";
 
 const genders = [
   {
