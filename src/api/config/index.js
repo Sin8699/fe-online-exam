@@ -2,7 +2,7 @@ import { setAuthTokens, clearAuthTokens, getAccessToken } from "axios-jwt";
 import axios from "axios";
 import isBefore from "date-fns/isBefore";
 
-const BASE_URL = "https://service-deloy.eastus.cloudapp.azure.com/service";
+const BASE_URL = "http://20.51.241.64";
 
 // 1. Create an axios instance that you wish to apply the interceptor to
 const axiosInstance = axios.create({
