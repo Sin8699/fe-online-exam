@@ -18,8 +18,8 @@ import {
 // components
 import MenuPopover from "../../components/MenuPopover";
 //
-import account from "../../_mocks_/account";
 import { logout } from "../../api/config";
+import useProfile from "../../hooks/useProfile";
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +46,12 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [userInfo] = useProfile();
+  const {
+    lastName = "",
+    email = "",
+    avatar = "https://media.defense.gov/2020/Oct/25/2002523049/-1/-1/0/201025-M-AB981-003.JPG",
+  } = userInfo;
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -77,7 +83,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={avatar} alt={lastName} />
       </IconButton>
 
       <MenuPopover
@@ -88,10 +94,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {lastName}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {account.email}
+            {email}
           </Typography>
         </Box>
 

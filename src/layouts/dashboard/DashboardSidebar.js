@@ -19,7 +19,7 @@ import NavSection from "../../components/NavSection";
 import { MHidden } from "../../components/@material-extend";
 //
 import sidebarConfig from "./SidebarConfig";
-import account from "../../_mocks_/account";
+import useProfile from "../../hooks/useProfile";
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +46,13 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
+
+  const [userInfo] = useProfile();
+  const {
+    lastName = "",
+    firstName = "",
+    avatar = "https://media.defense.gov/2020/Oct/25/2002523049/-1/-1/0/201025-M-AB981-003.JPG",
+  } = userInfo;
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -74,10 +81,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={avatar} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {account.displayName}
+                {`${firstName} ${lastName}`}
               </Typography>
             </Box>
           </AccountStyle>
