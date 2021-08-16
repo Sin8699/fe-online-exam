@@ -13,10 +13,11 @@ import data from '@iconify/icons-eva/menu-2-fill';
 
 export default function Profile() {
   const { isClient } = checkRole();
+
   //Cách 1
-  // let func;
-  // isClient ? (func = GET_INFO_PROFILE_CLIENT()) : (func = GET_INFO_PROFILE_MANAGER());
-  // const { response: resClientTest } = useAxios(func);
+  // let ob;
+  // isClient ? (ob = GET_INFO_PROFILE_CLIENT()) : (ob = GET_INFO_PROFILE_MANAGER());
+  // const { response: resProfile } = useAxios(ob);
 
   //Cách 2 ---------------------------------------------------------------------------------------------------------------------
   const [userInfo, setUserInfo] = useState({});
@@ -25,33 +26,26 @@ export default function Profile() {
   useEffect(() => {
     (async function () {
       if (isClient) {
-        await getProfileClient();
-      }
-      else {
-        await getProfileManager();
+        getProfileClient();
+      } else {
+        getProfileManager();
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if(isClient){
-      setUserInfo(profile?.data || {})
-    }else{
-      setUserInfo(profileManager?.data || {})
+    if (isClient) {
+      setUserInfo(profile?.data || {});
+    } else {
+      setUserInfo(profileManager?.data || {});
     }
   }, [isClient, profile, profileManager]);
-  
+
   //---------------------------------------------------------------------------------------------------------------------------
 
   return (
     <Page title="Dashboard | Profile | Online Exam-UI">
-      <Box
-        sx={{
-          backgroundColor: 'background.default',
-          minHeight: '100%',
-          py: 3,
-        }}
-      >
+      <Box sx={{ backgroundColor: 'background.default', minHeight: '100%', py: 3 }}>
         <Container maxWidth="lg">
           <Grid container spacing={3}>
             <Grid item lg={4} md={6} xs={12}>
