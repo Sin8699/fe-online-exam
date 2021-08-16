@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -9,10 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import faker from "faker";
-
-import React from "react";
 import Upload from "rc-upload";
-import checkRole from "../../helpers/checkRole";
 const user = {
   avatar: faker.image.avatar(),
   email: "demo@devias.io",
@@ -20,10 +18,14 @@ const user = {
   name: "Katarina Smith",
 };
 
-const AccountProfile = (props) => {
+const AccountProfile = ({ dataProfile }) => {
+  const [values, setValues] = useState({});
+  useEffect(() => {
+    setValues({ ...dataProfile });
+  }, [dataProfile]);
   
   return(
-  <Card {...props}>
+  <Card>
     <CardContent>
       <Box
         sx={{
@@ -40,10 +42,10 @@ const AccountProfile = (props) => {
           }}
         />
         <Typography color="textPrimary" gutterBottom variant="h3">
-          {user.name}
+          {values.firstName+ ' '+values.lastName}
         </Typography>
         <Typography color="textSecondary" variant="body1">
-          {user.email}
+          {values.email}
         </Typography>
       </Box>
     </CardContent>
