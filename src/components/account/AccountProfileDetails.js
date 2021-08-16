@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import * as dayjs from 'dayjs';
 import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField } from '@material-ui/core';
 import { isEqual } from 'lodash';
-
-// const genders = [
-//   { value: 'male', label: 'Male' },
-//   { value: 'female', label: 'Female' },
-// ];
+import useAxios from "../../hooks/useAxios";
+import { UPDATE_INFO_PROFILE_CLIENT, UPDATE_INFO_PROFILE_MANAGER } from "../../api/auth";
+import checkRole from "../../helpers/checkRole";
+import { toast } from 'react-toastify';
 
 const AccountProfileDetails = ({ dataProfile }) => {
   const [values, setValues] = useState({});
@@ -17,6 +16,37 @@ const AccountProfileDetails = ({ dataProfile }) => {
 
   const handleChange = (key) => (event) => {
     setValues({ ...values, [key]: event.target.value });
+  };
+
+  const { fetchData: updateProfileClient } = useAxios(UPDATE_INFO_PROFILE_CLIENT(), false);
+  const { fetchData: updateProfileManager } = useAxios(UPDATE_INFO_PROFILE_MANAGER(), false);
+
+
+  const handleUpdateProfile = async () => {
+    const { isClient } = checkRole();
+    if (isClient) {
+      const code = await updateProfileClient({
+        id: dataProfile.id,
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName
+      });
+      if (code === 0) {
+        toast.success('Submit success');
+      }
+    } else {
+      const code = await updateProfileManager({
+        id: dataProfile.id,
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName
+      });
+      if (code === 0) {
+        toast.success('Submit success');
+      }
+    }
+
+
   };
 
 
@@ -70,7 +100,7 @@ const AccountProfileDetails = ({ dataProfile }) => {
         </CardContent>
         <Divider />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={handleUpdateProfile}>
             Save details
           </Button>
         </Box>
