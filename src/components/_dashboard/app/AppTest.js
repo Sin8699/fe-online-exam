@@ -41,11 +41,11 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 
 export default function AppTest() {
   const { isClient } = checkRole();
-  let funca;
-  // let resClientTest;
-  if (isClient) funca = LIST_CLIENT_TEST();
-  else funca = LIST_CLIENT_TEST_BY_ADMIN();
-  const { response: resClientTest } = useAxios(funca);
+  const routeCallApi = isClient
+    ? LIST_CLIENT_TEST()
+    : LIST_CLIENT_TEST_BY_ADMIN();
+
+  const { response: resClientTest } = useAxios(routeCallApi);
 
   const dataTest = (resClientTest || {}).data || [];
   return (
