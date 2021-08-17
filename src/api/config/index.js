@@ -13,7 +13,6 @@ const axiosInstance = axios.create({
 });
 
 // 2. Define token refresh function.
-
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
