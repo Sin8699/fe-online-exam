@@ -18,6 +18,12 @@ export const RESET_PASSWORD = (body) => ({
   body: body,
 });
 
+export const CHANGE_PASS = (body) => ({
+  method: METHOD.PATCH,
+  url: "/api/v1/auths/password",
+  body: body,
+});
+
 export const GET_INFO_PROFILE_CLIENT = (body) => ({
   method: METHOD.GET,
   url: "/api/v1/clients/my-profile",
