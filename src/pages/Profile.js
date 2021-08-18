@@ -62,7 +62,7 @@ export default function Profile() {
               <AccountProfileDetails dataProfile={userInfo} />
             </Grid>
             <Grid item lg={12} md={6} xs={12}>
-              <ChangePassword />
+              <ChangePassword dataProfile={userInfo} />
             </Grid>
           </Grid>
         </Container>

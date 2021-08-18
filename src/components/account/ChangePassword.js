@@ -9,13 +9,40 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
+import { toast } from 'react-toastify';
+import { CHANGE_PASS } from "../../api/auth";
+import useAxios from "../../hooks/useAxios";
 
 const ChangePassword = (props) => {
+  const { fetchData: changePassword } = useAxios(CHANGE_PASS(), false);
   const [values, setValues] = useState({
     oldPassword: "",
     confirmPassword: "",
     newPassword: "",
   });
+
+  const handleChangePassword = async () => {
+    if (values.confirmPassword !== values.newPassword) {
+      toast.error('New password no match with Confirm New password', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
+    } else {
+      const code = await changePassword({
+        email: props.email,
+        oldPassword: values.oldPassword,
+        password: values.newPassword
+      });
+      if (code === 0) {
+        toast.success('Change Password success');
+      }
+    }
+  };
 
   const handleChange = (event) => {
     setValues({
@@ -75,7 +102,7 @@ const ChangePassword = (props) => {
             p: 2,
           }}
         >
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={handleChangePassword}>
             Save
           </Button>
         </Box>

@@ -32,6 +32,7 @@ const AccountProfileDetails = ({ dataProfile }) => {
         lastName: values.lastName
       });
       if (code === 0) {
+        window.location.reload();
         toast.success('Submit success');
       }
     } else {
@@ -45,8 +46,6 @@ const AccountProfileDetails = ({ dataProfile }) => {
         toast.success('Submit success');
       }
     }
-
-
   };
 
 
