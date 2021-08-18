@@ -12,6 +12,7 @@ export function profileReducer(state = initialState, action) {
         profile: action.data,
       };
     }
+
     default:
       return state;
   }
