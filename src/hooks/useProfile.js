@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { GET_INFO_PROFILE_CLIENT, GET_INFO_PROFILE_MANAGER } from "../api/auth";
 import checkRole from "../helpers/checkRole";
 import useAxios from "../hooks/useAxios";
+import { useSelector } from "react-redux";
 
 const useProfile = () => {
+  const { profile: data } = useSelector((state) => state.profileState);
+  console.log("data", data);
   const [userInfo, setUserInfo] = useState({});
   const { isClient } = checkRole();
 

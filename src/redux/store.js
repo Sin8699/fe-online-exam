@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import rootSaga from './saga';
-import rootReducer from './reducers';
-import configAxios from '../api/config';
+import { createStore, applyMiddleware, compose } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { composeWithDevTools } from "redux-devtools-extension";
+import rootSaga from "./saga";
+import rootReducer from "./reducers";
+import configAxios from "../api/config";
 
 // axios middleware
 const createAxiosMiddleware = (axios) => () => {
@@ -19,7 +19,7 @@ const sagaMiddleware = createSagaMiddleware();
 const axiosMiddleware = createAxiosMiddleware(configAxios);
 
 const bindMiddleware = (middleware) => {
-  if (process?.env?.NODE_ENV !== 'production') {
+  if (process?.env?.NODE_ENV !== "production") {
     return composeWithDevTools(applyMiddleware(...middleware));
   }
   return applyMiddleware(...middleware);

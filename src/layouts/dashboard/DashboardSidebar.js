@@ -19,7 +19,7 @@ import NavSection from "../../components/NavSection";
 import { MHidden } from "../../components/@material-extend";
 //
 import sidebarConfig from "./SidebarConfig";
-import useProfile from "../../hooks/useProfile";
+import { useSelector } from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -47,7 +47,8 @@ DashboardSidebar.propTypes = {
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
 
-  const [userInfo] = useProfile();
+  const { profile: userInfo } = useSelector((state) => state.profileState);
+
   const {
     lastName = "",
     firstName = "",

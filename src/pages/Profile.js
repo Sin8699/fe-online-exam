@@ -1,50 +1,14 @@
 import { Box, Container, Grid } from "@material-ui/core";
 import AccountProfile from "../components/account/AccountProfile";
-import { useState, useEffect } from "react";
 import AccountProfileDetails from "../components/account/AccountProfileDetails";
 import ChangePassword from "../components/account/ChangePassword";
 import Page from "../components/Page";
-import { GET_INFO_PROFILE_CLIENT, GET_INFO_PROFILE_MANAGER } from "../api/auth";
-import checkRole from "../helpers/checkRole";
-import useAxios from "../hooks/useAxios";
+import { useSelector } from "react-redux";
 
 // ----------------------------------------------------------------------
 
 export default function Profile() {
-  const { isClient } = checkRole();
-
-  //Cách 1
-  // let ob;
-  // isClient ? (ob = GET_INFO_PROFILE_CLIENT()) : (ob = GET_INFO_PROFILE_MANAGER());
-  // const { response: resProfile } = useAxios(ob);
-
-  //Cách 2 ---------------------------------------------------------------------------------------------------------------------
-  const [userInfo, setUserInfo] = useState({});
-  const { response: profile, fetchData: getProfileClient } = useAxios(
-    GET_INFO_PROFILE_CLIENT(),
-    false
-  );
-  const { response: profileManager, fetchData: getProfileManager } = useAxios(
-    GET_INFO_PROFILE_MANAGER(),
-    false
-  );
-  useEffect(() => {
-    (async function () {
-      if (isClient) {
-        getProfileClient();
-      } else {
-        getProfileManager();
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    if (isClient) {
-      setUserInfo(profile?.data || {});
-    } else {
-      setUserInfo(profileManager?.data || {});
-    }
-  }, [isClient, profile, profileManager]);
+  const { profile: userInfo } = useSelector((state) => state.profileState);
 
   //---------------------------------------------------------------------------------------------------------------------------
 

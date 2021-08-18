@@ -19,7 +19,7 @@ import {
 import MenuPopover from "../../components/MenuPopover";
 //
 import { logout } from "../../api/config";
-import useProfile from "../../hooks/useProfile";
+import { useSelector } from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,8 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [userInfo] = useProfile();
+  const { profile: userInfo } = useSelector((state) => state.profileState);
+
   const {
     lastName = "",
     email = "",
