@@ -1,6 +1,6 @@
-import { METHOD } from './config/method';
+import { METHOD } from './config/method'
 
-export const QUESTION_LIST = () => ({
+export const GET_QUESTIONS_BY_TEST_KIT = (id) => ({
   method: METHOD.GET,
-  url: '/api/v1/questions/',
-});
+  url: `questions/${id}`,
+})

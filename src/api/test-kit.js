@@ -1,18 +1,23 @@
-import { METHOD } from './config/method';
+import { METHOD } from './config/method'
 
 export const TEST_KIT_LIST = () => ({
   method: METHOD.GET,
-  url: '/api/v1/test-kits',
-});
+  url: 'test-kit',
+})
+
+export const TEST_KIT_DETAIL = (id) => ({
+  method: METHOD.GET,
+  url: `test-kit/${id}`,
+})
 
 export const CREATE_TEST_KIT = (body) => ({
   method: METHOD.POST,
-  url: '/api/v1/test-kits',
+  url: 'test-kit',
   body: body,
-});
+})
 
 export const UPDATE_TEST_KIT = (id, body) => ({
   method: METHOD.PUT,
-  url: `/api/v1/test-kits/${id}`,
+  url: `test-kit/${id}`,
   body: body,
-});
+})

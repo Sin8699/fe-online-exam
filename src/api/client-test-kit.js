@@ -1,6 +1,6 @@
 import { METHOD } from './config/method'
 
-export const FORM_CONTACT_LIST = () => ({
+export const LIST_CLIENT_TEST_KIT = () => ({
   method: METHOD.GET,
-  url: '',
+  url: '/test-kit',
 })

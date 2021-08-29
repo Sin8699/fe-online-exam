@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { useSelector } from 'react-redux';
+import * as React from 'react'
+
 // material
-import { Stack, Container, Typography, IconButton } from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
+import { Stack, Container, Typography, IconButton } from '@material-ui/core'
+import { styled } from '@material-ui/core/styles'
 //icon
-import { Icon } from '@iconify/react';
-import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
+import { Icon } from '@iconify/react'
+import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill'
 // components
-import Page from '../components/Page';
+import Page from '../components/Page'
 //import Loader from '../components/Loader';
-import InfoTestExam from '../components/InfoTestExam';
-import ComboBoxAutoComplete from '../components/AutoComplete';
+import InfoTestExam from '../components/InfoTestExam'
+//import ComboBoxAutoComplete from '../components/AutoComplete'
 
 //mock_data
-import DATA_MOCK from '../_mocks_/test-exam';
+import DATA_MOCK from '../_mocks_/test-exam'
 
 const ButtonScrollToTop = styled(IconButton)(({ theme }) => ({
   position: 'fixed',
@@ -25,31 +25,26 @@ const ButtonScrollToTop = styled(IconButton)(({ theme }) => ({
   '&:hover': { backgroundColor: theme.palette.success.dark },
   animation: 'fadeIn ease 1.5s',
   '@keyframes fadeIn': { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
-}));
+}))
 
 const FindExamSubject = () => {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [valueSubject, setValueSubject] = React.useState(null);
-  const [valueCourse, setValueCourse] = React.useState(null);
-
-  const { dataSagaSubject } = useSelector((state) => state.subjectState);
-  const { dataSagaCourse } = useSelector((state) => state.courseState);
+  const [isVisible, setIsVisible] = React.useState(false)
 
   React.useEffect(() => {
     const toggleVisibility = () => {
       if (window.pageYOffset > 400) {
-        setIsVisible(true);
+        setIsVisible(true)
       } else {
-        setIsVisible(false);
+        setIsVisible(false)
       }
-    };
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
+    }
+    window.addEventListener('scroll', toggleVisibility)
+    return () => window.removeEventListener('scroll', toggleVisibility)
+  }, [])
 
   const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <Page title="Test Exam">
@@ -65,8 +60,8 @@ const FindExamSubject = () => {
           </Typography>
         </Stack>
         <Stack direction="row" alignItems="center" justifyContent="flex-start" mb={5}>
-          <ComboBoxAutoComplete label="Subject" data={dataSagaSubject} option={valueSubject} onChangeOption={setValueSubject} />
-          <ComboBoxAutoComplete label="Course" data={dataSagaCourse} option={valueCourse} onChangeOption={setValueCourse} />
+          {/* <ComboBoxAutoComplete label="Subject" data={dataSagaSubject} option={valueSubject} onChangeOption={setValueSubject} />
+          <ComboBoxAutoComplete label="Course" data={dataSagaCourse} option={valueCourse} onChangeOption={setValueCourse} /> */}
         </Stack>
 
         {DATA_MOCK.map((item) => (
@@ -74,10 +69,10 @@ const FindExamSubject = () => {
         ))}
       </Container>
     </Page>
-  );
-};
+  )
+}
 
-export default FindExamSubject;
+export default FindExamSubject
 
 // ----------------------------------------------------------------------
 

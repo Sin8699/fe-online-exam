@@ -1,7 +1,7 @@
 // material
-import { Box, Grid, Container, Typography } from "@material-ui/core";
+import { Box, Grid, Container, Typography } from '@material-ui/core'
 // components
-import Page from "../components/Page";
+import Page from '../components/Page'
 import {
   AppNewUsers,
   AppBugReports,
@@ -9,15 +9,11 @@ import {
   AppTest,
   // AppCurrentSubject,
   AppConversionRates,
-} from "../components/_dashboard/app";
-
-import checkRole from "../helpers/checkRole";
+} from '../components/_dashboard/app'
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
-  const { isAdmin } = checkRole();
-
   return (
     <Page title="Dashboard | Online Exam-UI">
       <Container maxWidth="xl">
@@ -25,22 +21,18 @@ export default function DashboardApp() {
           <Typography variant="h4">Hi, Welcome back</Typography>
         </Box>
         <Grid container spacing={3}>
-          {isAdmin && (
-            <>
-              <Grid item xs={12} sm={6} md={3}>
-                <AppTest />
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <AppNewUsers />
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <AppItemOrders />
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <AppBugReports />
-              </Grid>
-            </>
-          )}
+          <Grid item xs={12} sm={6} md={3}>
+            <AppTest />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppNewUsers />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppItemOrders />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <AppBugReports />
+          </Grid>
 
           <Grid item xs={12} md={6} lg={12}>
             <AppConversionRates />
@@ -52,5 +44,5 @@ export default function DashboardApp() {
         </Grid>
       </Container>
     </Page>
-  );
+  )
 }

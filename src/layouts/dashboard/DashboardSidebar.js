@@ -1,80 +1,59 @@
-import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import PropTypes from 'prop-types'
+import { useEffect } from 'react'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 // material
-import { styled } from "@material-ui/core/styles";
-import {
-  Box,
-  Link,
-  Drawer,
-  Typography,
-  Avatar,
-  Stack,
-  Button,
-} from "@material-ui/core";
+import { styled } from '@material-ui/core/styles'
+import { Box, Link, Drawer, Typography, Avatar, Stack, Button } from '@material-ui/core'
 // components
-import Logo from "../../components/Logo";
-import Scrollbar from "../../components/Scrollbar";
-import NavSection from "../../components/NavSection";
-import { MHidden } from "../../components/@material-extend";
+import Logo from '../../components/Logo'
+import Scrollbar from '../../components/Scrollbar'
+import NavSection from '../../components/NavSection'
+import { MHidden } from '../../components/@material-extend'
 //
-import sidebarConfig from "./SidebarConfig";
-import { useSelector } from "react-redux";
+import { sidebarConfig, sidebarConfigForAdmin } from './SidebarConfig'
+import { useSelector } from 'react-redux'
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 280;
+const DRAWER_WIDTH = 280
 
-const RootStyle = styled("div")(({ theme }) => ({
-  [theme.breakpoints.up("lg")]: { flexShrink: 0, width: DRAWER_WIDTH },
-}));
+const RootStyle = styled('div')(({ theme }) => ({
+  [theme.breakpoints.up('lg')]: { flexShrink: 0, width: DRAWER_WIDTH },
+}))
 
-const AccountStyle = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
+const AccountStyle = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
   padding: theme.spacing(2, 2.5),
   borderRadius: theme.shape.borderRadiusSm,
   backgroundColor: theme.palette.grey[200],
-}));
+}))
 
 // ----------------------------------------------------------------------
 
 DashboardSidebar.propTypes = {
   isOpenSidebar: PropTypes.bool,
   onCloseSidebar: PropTypes.func,
-};
+}
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
-  const { profile: userInfo } = useSelector((state) => state.profileState);
+  const { profile: userInfo } = useSelector((state) => state.profileState)
 
-  const {
-    lastName = "",
-    firstName = "",
-    avatar = "https://media.defense.gov/2020/Oct/25/2002523049/-1/-1/0/201025-M-AB981-003.JPG",
-  } = userInfo;
+  const { fullname = '', role = '', avatar = 'https://media.defense.gov/2020/Oct/25/2002523049/-1/-1/0/201025-M-AB981-003.JPG' } = userInfo
 
   useEffect(() => {
     if (isOpenSidebar) {
-      onCloseSidebar();
+      onCloseSidebar()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname])
 
   const renderContent = (
-    <Scrollbar
-      sx={{
-        height: "100%",
-        "& .simplebar-content": {
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-        },
-      }}
-    >
+    <Scrollbar sx={{ height: '100%', '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' } }}>
       <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
+        <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
           <Logo />
         </Box>
       </Box>
@@ -84,62 +63,34 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           <AccountStyle>
             <Avatar src={avatar} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {`${firstName} ${lastName}`}
+              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+                {fullname}
               </Typography>
             </Box>
           </AccountStyle>
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={role === 'USER' ? sidebarConfig : sidebarConfigForAdmin} />
 
       <Box sx={{ flexGrow: 1 }} />
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack
-          alignItems="center"
-          spacing={3}
-          sx={{
-            p: 2.5,
-            pt: 5,
-            borderRadius: 2,
-            position: "relative",
-            bgcolor: "grey.200",
-          }}
-        >
-          <Box
-            component="img"
-            src="/static/illustrations/illustration_avatar.png"
-            sx={{
-              width: 100,
-              position: "absolute",
-              top: -60,
-              borderRadius: "33%",
-            }}
-          />
+        <Stack alignItems="center" spacing={3} sx={{ p: 2.5, pt: 5, borderRadius: 2, position: 'relative', bgcolor: 'grey.200' }}>
+          <Box component="img" src="/static/illustrations/illustration_avatar.png" sx={{ width: 100, position: 'absolute', top: -60, borderRadius: '33%' }} />
 
-          <Button
-            fullWidth
-            href="https://landingpage-online-exam.herokuapp.com/"
-            target="_blank"
-            color="secondary"
-          >
+          <Button fullWidth href="https://landingpage-online-exam.herokuapp.com/" target="_blank" color="secondary">
             About us
           </Button>
         </Stack>
       </Box>
     </Scrollbar>
-  );
+  )
 
   return (
     <RootStyle>
       <MHidden width="lgUp">
-        <Drawer
-          open={isOpenSidebar}
-          onClose={onCloseSidebar}
-          PaperProps={{ sx: { width: DRAWER_WIDTH } }}
-        >
+        <Drawer open={isOpenSidebar} onClose={onCloseSidebar} PaperProps={{ sx: { width: DRAWER_WIDTH } }}>
           {renderContent}
         </Drawer>
       </MHidden>
@@ -149,12 +100,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           open
           variant="persistent"
           PaperProps={{
-            sx: { width: DRAWER_WIDTH, bgcolor: "background.default" },
+            sx: { width: DRAWER_WIDTH, bgcolor: 'background.default' },
           }}
         >
           {renderContent}
         </Drawer>
       </MHidden>
     </RootStyle>
-  );
+  )
 }

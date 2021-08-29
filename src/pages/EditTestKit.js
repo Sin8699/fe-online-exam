@@ -1,39 +1,36 @@
-import { useState } from 'react';
-import { remove } from 'lodash';
-import { useParams } from 'react-router-dom';
+import { useState } from 'react'
+import { remove } from 'lodash'
+import { useParams } from 'react-router-dom'
 // material
-import { styled } from '@material-ui/styles';
-import { LoadingButton } from '@material-ui/lab';
-import { Card, Stack, Container, Typography, Grid, TextField, Radio, Button, IconButton } from '@material-ui/core';
-
+import { styled } from '@material-ui/styles'
+import { LoadingButton } from '@material-ui/lab'
+import { Card, Stack, Container, Typography, Grid, TextField, Radio, Button, IconButton } from '@material-ui/core'
 // icon
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import trash2Fill from '@iconify/icons-eva/trash-2-fill';
-import navigationOutline from '@iconify/icons-eva/navigation-outline';
-
+import { Icon } from '@iconify/react'
+import plusFill from '@iconify/icons-eva/plus-fill'
+import trash2Fill from '@iconify/icons-eva/trash-2-fill'
+import navigationOutline from '@iconify/icons-eva/navigation-outline'
 // components
-import Page from '../components/Page';
-//import Loader from '../components/Loader';
-
+import Page from '../components/Page'
+//import Loader from '../components/Loader'
 //api
-//import useAxios from '../hooks/useAxios';
+//import useAxios from '../hooks/useAxios'
 
 //----------------------------------------------------------------
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 //----------------------------------------------------------------
 
-const GridItem = styled(Grid)({ display: 'flex', alignItems: 'center' });
-const ButtonAddNew = styled(Button)({ margin: 10 });
+const GridItem = styled(Grid)({ display: 'flex', alignItems: 'center' })
+const ButtonAddNew = styled(Button)({ margin: 10 })
 
 //----------------------------------------------------------------
 
 const EditTestKitForm = () => {
-  const { slug } = useParams();
-  console.log('slug: ', slug);
+  const { slug } = useParams()
+  console.log('slug: ', slug)
 
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([])
 
   const handleAddNew = () => {
     setQuestions([
@@ -46,41 +43,41 @@ const EditTestKitForm = () => {
         answer4: '',
         answer: 0,
       },
-    ]);
-  };
+    ])
+  }
 
   const handleDeleteQuestion = (indexDelete) => {
     const evens = remove(questions, function (n, i) {
-      return i !== indexDelete;
-    });
-    setQuestions(evens);
-  };
+      return i !== indexDelete
+    })
+    setQuestions(evens)
+  }
 
   const handleChangeRadio = (indexQuestions) => (event) => {
-    const questionsUpdate = [...questions];
-    questionsUpdate[indexQuestions].answer = +event.target.value;
-    setQuestions(questionsUpdate);
-  };
+    const questionsUpdate = [...questions]
+    questionsUpdate[indexQuestions].answer = +event.target.value
+    setQuestions(questionsUpdate)
+  }
 
   const handleChangeAnswer = (key, indexQuestions) => (event) => {
-    const questionsUpdate = [...questions];
-    questionsUpdate[indexQuestions][key] = event.target.value;
-    setQuestions(questionsUpdate);
-  };
+    const questionsUpdate = [...questions]
+    questionsUpdate[indexQuestions][key] = event.target.value
+    setQuestions(questionsUpdate)
+  }
 
   //----------------------------------------------------------------
-  const navigate = useNavigate();
-  const [fakeLoading, setFakeLoading] = useState(false);
+  const navigate = useNavigate()
+  const [fakeLoading, setFakeLoading] = useState(false)
   const handleSubmit = () => {
-    setFakeLoading(true);
+    setFakeLoading(true)
     setTimeout(() => {
-      setFakeLoading(false);
-      toast.success('Submit success');
-    }, 3000);
+      setFakeLoading(false)
+      toast.success('Submit success')
+    }, 3000)
     setTimeout(() => {
-      navigate('/dashboard/testkit', { replace: true });
-    }, 4000);
-  };
+      navigate('/dashboard/testkit', { replace: true })
+    }, 4000)
+  }
 
   return (
     <Page title="New Test Kit">
@@ -134,7 +131,7 @@ const EditTestKitForm = () => {
         </div>
       </Container>
     </Page>
-  );
-};
+  )
+}
 
-export default EditTestKitForm;
+export default EditTestKitForm

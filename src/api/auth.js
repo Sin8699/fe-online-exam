@@ -1,47 +1,36 @@
-import { METHOD } from "./config/method";
+import { METHOD } from './config/method'
 
 export const LOGIN = (body) => ({
   method: METHOD.POST,
-  url: "/api/v1/auths/login",
+  url: 'auth/login',
   body: body,
-});
-
-export const FORGOT_PASSWORD = (body) => ({
-  method: METHOD.POST,
-  url: "/api/v1/auths/forgot-password",
-  body: body,
-});
+})
 
 export const RESET_PASSWORD = (body) => ({
   method: METHOD.POST,
-  url: "/api/v1/auths/reset-password",
+  url: 'auth/reset-password',
   body: body,
-});
+})
 
-export const CHANGE_PASS = (body) => ({
+export const CHANGE_PASSWORD = (body) => ({
+  method: METHOD.POST,
+  url: 'auth/change-password',
+  body: body,
+})
+
+export const REGISTER_USER = (body) => ({
+  method: METHOD.POST,
+  url: 'auth/register',
+  body: body,
+})
+
+export const GET_INFO_PROFILE_USER = () => ({
+  method: METHOD.GET,
+  url: 'auth/',
+})
+
+export const UPDATE_INFO_PROFILE_USER = (body) => ({
   method: METHOD.PATCH,
-  url: "/api/v1/auths/password",
+  url: 'auth/',
   body: body,
-});
-
-export const GET_INFO_PROFILE_CLIENT = (body) => ({
-  method: METHOD.GET,
-  url: "/api/v1/clients/my-profile",
-  body: body,
-});
-
-export const GET_INFO_PROFILE_MANAGER = (body) => ({
-  method: METHOD.GET,
-  url: "/api/v1/managers/my-profile"
-});
-
-export const UPDATE_INFO_PROFILE_CLIENT = (body) => ({
-  method: METHOD.PUT,
-  url: "/api/v1/clients/my-profile"
-});
-
-export const UPDATE_INFO_PROFILE_MANAGER = (body) => ({
-  method: METHOD.PUT,
-  url: "/api/v1/managers/my-profile",
-  body: body,
-});
+})

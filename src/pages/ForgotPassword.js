@@ -11,7 +11,7 @@ import { TextField } from "@material-ui/core";
 import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@material-ui/lab";
 import useAxios from "../hooks/useAxios";
-import { FORGOT_PASSWORD } from "../api/auth";
+import { RESET_PASSWORD } from "../api/auth";
 import { toast } from "react-toastify";
 
 import * as Yup from "yup";
@@ -46,8 +46,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ForgotPassword() {
-  const { fetchData: registerClient, loading } = useAxios(
-    FORGOT_PASSWORD(),
+  const { fetchData: resetPassword, loading } = useAxios(
+    RESET_PASSWORD(),
     false
   );
 
@@ -63,7 +63,7 @@ export default function ForgotPassword() {
     },
     validationSchema: LoginSchema,
     onSubmit: async ({ email }) => {
-      const code = await registerClient({
+      const code = await resetPassword({
         email,
       });
 

@@ -1,42 +1,26 @@
-import { useState, useEffect } from "react";
-import { GET_INFO_PROFILE_CLIENT, GET_INFO_PROFILE_MANAGER } from "../api/auth";
-import checkRole from "../helpers/checkRole";
-import useAxios from "../hooks/useAxios";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from 'react'
+import { GET_INFO_PROFILE_USER } from '../api/auth'
+import useAxios from '../hooks/useAxios'
+import { useSelector } from 'react-redux'
 
 const useProfile = () => {
-  const { profile: data } = useSelector((state) => state.profileState);
-  console.log("data", data);
-  const [userInfo, setUserInfo] = useState({});
-  const { isClient } = checkRole();
+  const { profile: data } = useSelector((state) => state.profileState)
+  console.log('data', data)
+  const [userInfo, setUserInfo] = useState({})
 
-  const { response: profile, fetchData: getProfileClient } = useAxios(
-    GET_INFO_PROFILE_CLIENT(),
-    false
-  );
-  const { response: profileManager, fetchData: getProfileManager } = useAxios(
-    GET_INFO_PROFILE_MANAGER(),
-    false
-  );
+  const { response: profile, fetchData: getProfileUser } = useAxios(GET_INFO_PROFILE_USER(), false)
+
   useEffect(() => {
-    (async function () {
-      if (isClient) {
-        getProfileClient();
-      } else {
-        getProfileManager();
-      }
-    })();
+    ;(async function () {
+      getProfileUser()
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
   useEffect(() => {
-    if (isClient) {
-      setUserInfo(profile?.data || {});
-    } else {
-      setUserInfo(profileManager?.data || {});
-    }
-  }, [isClient, profile, profileManager]);
+    setUserInfo(profile?.data || {})
+  }, [profile])
 
-  return [userInfo, setUserInfo];
-};
+  return [userInfo, setUserInfo]
+}
 
-export default useProfile;
+export default useProfile

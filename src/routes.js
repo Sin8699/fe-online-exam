@@ -1,24 +1,24 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom'
 // layouts
-import DashboardLayout from './layouts/dashboard';
-import LogoOnlyLayout from './layouts/LogoOnlyLayout';
+import DashboardLayout from './layouts/dashboard'
+import LogoOnlyLayout from './layouts/LogoOnlyLayout'
 //
-import DashboardApp from './pages/DashboardApp';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import User from './pages/User';
-import Course from './pages/Course';
-import Subject from './pages/Subject';
-import Profile from './pages/Profile';
-import TestExam from './pages/TestExam';
-import TestKitManage from './pages/TestKit';
-import TestKitForm from './pages/EditTestKit';
-import VerifyEmail from './pages/VerifyEmail';
-import TestUserManager from './pages/TestUser';
-import ResetPassword from './pages/ResetPassword';
-import ForgotPassword from './pages/ForgotPassword';
-import FindExamSubject from './pages/FindExam';
-import NotFound from './pages/Page404';
+import DashboardApp from './pages/DashboardApp'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import User from './pages/User'
+import Profile from './pages/Profile'
+import TestExam from './pages/TestExam'
+import TestKitManage from './pages/TestKit'
+import TestKitForm from './pages/EditTestKit'
+import VerifyEmailSuccess from './pages/VerifyEmailSuccess'
+import VerifyEmailError from './pages/VerifyEmailError'
+import TestUserManager from './pages/TestUser'
+// import ResetPassword from './pages/ResetPassword'
+import LoginGoogleSuccess from './pages/LoginGoogleSuccess'
+import ForgotPassword from './pages/ForgotPassword'
+import FindExamSubject from './pages/FindExam'
+import NotFound from './pages/Page404'
 
 // ----------------------------------------------------------------------
 
@@ -36,8 +36,6 @@ export default function Router() {
         { path: 'testkit', element: <TestKitManage /> },
         { path: 'edittestkit/:slug', element: <TestKitForm /> },
         { path: 'test-exam', element: <TestExam /> },
-        { path: 'subject', element: <Subject /> },
-        { path: 'course', element: <Course /> },
         { path: 'find-exam-subject', element: <FindExamSubject /> },
       ],
     },
@@ -48,8 +46,10 @@ export default function Router() {
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'forgot-password', element: <ForgotPassword /> },
-        { path: 'confirm-account', element: <VerifyEmail /> },
-        { path: 'reset-password', element: <ResetPassword /> },
+        { path: 'verify-success', element: <VerifyEmailSuccess /> },
+        { path: 'verify-error', element: <VerifyEmailError /> },
+        { path: 'login-success/:token', element: <LoginGoogleSuccess /> },
+        // { path: 'reset-password', element: <ResetPassword /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
         { path: '*', element: <Navigate to="/404" /> },
@@ -57,5 +57,5 @@ export default function Router() {
     },
 
     { path: '*', element: <Navigate to="/404" replace /> },
-  ]);
+  ])
 }
