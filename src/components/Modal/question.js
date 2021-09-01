@@ -1,71 +1,71 @@
 import React from 'react'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 //material
-import {Button, Checkbox, TextField, Radio, Grid, IconButton} from '@material-ui/core'
-import {LoadingButton} from '@material-ui/lab'
-import {ModalHeader, ModalBody, ModalFooter} from '../../assets/styled/Modal'
-import {GridItemAnswer} from '../../assets/styled/Question'
+import { Button, Checkbox, TextField, Radio, Grid, IconButton } from '@material-ui/core'
+import { LoadingButton } from '@material-ui/lab'
+import { ModalHeader, ModalBody, ModalFooter } from '../../assets/styled/Modal'
+import { GridItemAnswer } from '../../assets/styled/Question'
 //icon
-import {Icon} from '@iconify/react'
+import { Icon } from '@iconify/react'
 import closeFill from '@iconify/icons-eva/close-fill'
 import trash2Fill from '@iconify/icons-eva/trash-2-fill'
 //constants
-import {TYPE_MODAL} from '../../constants/modal'
-import {TYPE_QUESTION} from '../../constants/type-question'
+import { TYPE_MODAL } from '../../constants/modal'
+import { TYPE_QUESTION } from '../../constants/type-question'
 // api
 import useAxios from '../../hooks/useAxios'
-import {CREATE_QUESTIONS, UPDATE_QUESTIONS} from '../../api/question'
+import { CREATE_QUESTIONS, UPDATE_QUESTIONS } from '../../api/question'
 
-const ModalQuestion = ({onClose, selectedItem, typeModal, typeQuestion, onSuccess}) => {
-  const {slug} = useParams()
+const ModalQuestion = ({ onClose, selectedItem, typeModal, typeQuestion, onSuccess }) => {
+  const { slug } = useParams()
 
   const [formValue, setFormValue] = React.useState({})
   console.log('formValue: ', formValue)
 
-  const {fetchData: createQuestion, loading: create_loading} = useAxios(CREATE_QUESTIONS(), false)
-  const {fetchData: updateQuestion, loading: update_loading} = useAxios(UPDATE_QUESTIONS(selectedItem?.id), false)
+  const { fetchData: createQuestion, loading: create_loading } = useAxios(CREATE_QUESTIONS(), false)
+  const { fetchData: updateQuestion, loading: update_loading } = useAxios(UPDATE_QUESTIONS(selectedItem?.id), false)
 
   React.useEffect(() => {
-    typeModal === TYPE_MODAL.Edit && setFormValue({...selectedItem})
+    typeModal === TYPE_MODAL.Edit && setFormValue({ ...selectedItem })
   }, [selectedItem, typeModal])
 
   const handleAddAnswer = () => {
     const temp = formValue.choices || []
-    setFormValue({...formValue, choices: [...temp, {is_correct: false, answer: ''}]})
+    setFormValue({ ...formValue, choices: [...temp, { is_correct: false, answer: '' }] })
   }
   const handleDeleteAnswer = (indexDelete) => {
     const new_choices = (formValue.choices || []).filter((item, index) => index !== indexDelete)
-    setFormValue({...formValue, choices: new_choices})
+    setFormValue({ ...formValue, choices: new_choices })
   }
 
   const handleChangeValue = (key, i) => (e) => {
     switch (key) {
       case 'answer':
         const answerUpdate = formValue.choices.map((element, ind) =>
-          ind === i ? {...element, answer: e.target.value} : element
+          ind === i ? { ...element, answer: e.target.value } : element
         )
-        setFormValue({...formValue, choices: answerUpdate})
+        setFormValue({ ...formValue, choices: answerUpdate })
         break
       case 'checked':
         const correct = formValue.choices.map((element, ind) =>
           ind === i
-            ? {...element, is_correct: e.target.checked}
+            ? { ...element, is_correct: e.target.checked }
             : typeQuestion === TYPE_QUESTION.SINGLE
-            ? {...element, is_correct: false}
+            ? { ...element, is_correct: false }
             : element
         )
-        setFormValue({...formValue, choices: correct})
+        setFormValue({ ...formValue, choices: correct })
         break
       default:
-        setFormValue({...formValue, [key]: e.target.value})
+        setFormValue({ ...formValue, [key]: e.target.value })
         break
     }
   }
 
   const handleSubmit = async () => {
-    const payload = {...formValue, type: typeQuestion, testKitId: +slug, score: +formValue.score}
+    const payload = { ...formValue, type: typeQuestion, testKitId: +slug, score: +formValue.score }
     let code
-    typeModal === TYPE_QUESTION.Create ? (code = await createQuestion(payload)) : (code = await updateQuestion(payload))
+    typeModal === TYPE_MODAL.Create ? (code = await createQuestion(payload)) : (code = await updateQuestion(payload))
     if (code === 0) onSuccess()
   }
 
@@ -78,12 +78,12 @@ const ModalQuestion = ({onClose, selectedItem, typeModal, typeQuestion, onSucces
           icon={closeFill}
           width={24}
           height={24}
-          style={{cursor: 'pointer', float: 'right', color: '#CACFD3'}}
+          style={{ cursor: 'pointer', float: 'right', color: '#CACFD3' }}
           onClick={onClose}
         />
       </ModalHeader>
-      <ModalBody style={{paddingTop: 17}}>
-        <Grid container style={{padding: '10px 0'}}>
+      <ModalBody style={{ paddingTop: 17 }}>
+        <Grid container style={{ padding: '10px 0' }}>
           <Grid item xs={12}>
             <TextField
               multiline
@@ -107,7 +107,7 @@ const ModalQuestion = ({onClose, selectedItem, typeModal, typeQuestion, onSucces
               </IconButton>
             </GridItemAnswer>
           ))}
-          <Grid item xs={8} style={{marginTop: 10}}>
+          <Grid item xs={8} style={{ marginTop: 10 }}>
             <Button variant="contained" onClick={handleAddAnswer}>
               Add answer
             </Button>
