@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Container, Typography, Card } from '@material-ui/core'
 // components
 import Page from '../components/Page'
-import TemplateClientTest from '../components/TemplateExam'
+import TemplateClientTest from '../components/templateExam'
 
 // api
 import useAxios from '../hooks/useAxios'
