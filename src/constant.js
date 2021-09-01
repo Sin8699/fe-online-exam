@@ -1,4 +1,4 @@
-//export const BASE_URL = 'http://localhost:3001/v1/'
+// export const BASE_URL = 'http://localhost:3001/v1/'
 export const BASE_URL = 'https://wiflyhomework.com/exam-api/v1/'
 
 export const ROLE_ID = {

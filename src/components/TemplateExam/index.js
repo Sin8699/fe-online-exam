@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 //material
 import { styled } from '@material-ui/core/styles'
 import { LoadingButton } from '@material-ui/lab'
@@ -16,7 +16,7 @@ import {
   FormControlLabel
 } from '@material-ui/core'
 //mock
-import data from '../_mocks_/client-test'
+import data from '../../_mocks_/test-exam'
 
 const LabelQuestion = styled(FormLabel)(({ theme }) => ({
   margin: theme.spacing(1),
@@ -26,7 +26,7 @@ const LabelQuestion = styled(FormLabel)(({ theme }) => ({
 }))
 
 export default function TemplateClientTest() {
-  let navigate = useNavigate()
+  //let navigate = useNavigate()
 
   return (
     <React.Fragment>

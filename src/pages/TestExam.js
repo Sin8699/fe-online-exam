@@ -1,22 +1,20 @@
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 // material
 import { Container, Typography, Card } from '@material-ui/core'
 // components
 import Page from '../components/Page'
-import TemplateClientTest from '../components/templateExam'
+import TemplateClientTest from '../components/TemplateExam/index'
 
 // api
-import useAxios from '../hooks/useAxios'
-import { CLIENT_TEST } from '../api/client-test'
+// import useAxios from '../hooks/useAxios'
+// import { CLIENT_TEST } from '../api/client-test'
 
 // ----------------------------------------------------------------------
 
 export default function TestExam() {
-  const { slug } = useParams()
+  // const { slug } = useParams()
 
-  const { response: questions, loading: loadingData } = useAxios(CLIENT_TEST(slug))
-
-  console.log('questions: ', questions)
+  // const { response: questions, loading: loadingData } = useAxios(CLIENT_TEST(slug))
 
   return (
     <Page title="Online Exam-UI">
