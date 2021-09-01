@@ -5,16 +5,11 @@ import { setAuthTokens } from 'axios-jwt'
 import { styled } from '@material-ui/core/styles'
 import { Card, Container, Typography, Divider } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
-
 // components
 import Page from '../components/Page'
 import { MHidden } from '../components/@material-extend'
 
-const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
-}))
+const RootStyle = styled(Page)(({ theme }) => ({ [theme.breakpoints.up('md')]: { display: 'flex' } }))
 
 const SectionStyle = styled(Card)(({ theme }) => ({
   width: '100%',
@@ -50,7 +45,7 @@ function LoginGoogleSuccess() {
   }, [token])
 
   return (
-    <RootStyle title="Login | Online Exam-UI">
+    <RootStyle title="Login Google | Online Exam-UI">
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -59,7 +54,6 @@ function LoginGoogleSuccess() {
           <img src="/static/illustrations/illustration_login.png" alt="login" />
         </SectionStyle>
       </MHidden>
-
       <Container maxWidth="sm">
         <ContentStyle>
           <Typography variant="h4" gutterBottom style={{ color: '#00AB55' }}>

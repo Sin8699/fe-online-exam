@@ -1,31 +1,32 @@
-
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
 //material
-import { styled } from '@material-ui/core/styles';
-import { LoadingButton } from '@material-ui/lab';
-import { Box, Grid, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Container, Typography, Stack } from '@material-ui/core';
+import { styled } from '@material-ui/core/styles'
+import { LoadingButton } from '@material-ui/lab'
+import {
+  Box,
+  Grid,
+  Radio,
+  Container,
+  Typography,
+  Stack,
+  FormLabel,
+  RadioGroup,
+  FormControl,
+  FormControlLabel
+} from '@material-ui/core'
 //mock
-import data from '../_mocks_/client-test';
+import data from '../_mocks_/client-test'
 
-const LabelQuestion = styled(FormLabel)(({ theme }) => ({ margin: theme.spacing(1), color: '#000', fontSize: 22, fontWeight: 'bold' }));
-
+const LabelQuestion = styled(FormLabel)(({ theme }) => ({
+  margin: theme.spacing(1),
+  color: '#000',
+  fontSize: 22,
+  fontWeight: 'bold'
+}))
 
 export default function TemplateClientTest() {
-  let navigate = useNavigate();
-
-  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  // const [test, setTest] = React.useState(false);
-  const [submitLoading, setSubmitLoading] = React.useState(false);
-  React.useEffect(() => {
-    const timer = setTimeout(() => setSubmitLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, [submitLoading]);
-  const handleSubmitExam = () => {
-    setSubmitLoading(true);
-    setTimeout(() => navigate('/dashboard/find-exam-subject'), 3000);
-  };
-  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  let navigate = useNavigate()
 
   return (
     <React.Fragment>
@@ -37,13 +38,12 @@ export default function TemplateClientTest() {
             <Grid item xs={12} md={12}>
               <Grid item xs={12}>
                 <Stack direction="row" justifyContent="flex-end" sx={{ py: 1 }}>
-                  {/* <Typography variant="h6" align="right">
+                  <Typography variant="h6" align="right">
                     Thời gian: 23:59
-                  </Typography> */}
-                  <LoadingButton variant="contained" sx={{ ml: 2 }} loading={submitLoading} onClick={handleSubmitExam}>
+                  </Typography>
+                  <LoadingButton variant="contained" sx={{ ml: 2 }}>
                     Nộp bài
                   </LoadingButton>
-                  {/* <LoadingButton onClick={() => setTest(!test)}>test</LoadingButton> */}
                 </Stack>
               </Grid>
               {data.question.map((questionItem) => (
@@ -52,7 +52,12 @@ export default function TemplateClientTest() {
                     <LabelQuestion component="legend">{`${questionItem.title} (${questionItem.point} điểm)`}</LabelQuestion>
                     <RadioGroup aria-label="gender" name="radio-buttons-group">
                       {questionItem.answers.map((answerItem) => (
-                        <FormControlLabel key={answerItem.id} value={answerItem.id} control={<Radio />} label={answerItem.content} />
+                        <FormControlLabel
+                          key={answerItem.id}
+                          value={answerItem.id}
+                          control={<Radio />}
+                          label={answerItem.content}
+                        />
                       ))}
                     </RadioGroup>
                   </FormControl>
@@ -63,5 +68,5 @@ export default function TemplateClientTest() {
         </Box>
       </Container>
     </React.Fragment>
-  );
+  )
 }

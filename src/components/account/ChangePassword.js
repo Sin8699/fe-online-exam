@@ -10,20 +10,18 @@ const ChangePassword = (props) => {
   const [values, setValues] = useState({ oldPassword: '', confirmPassword: '', newPassword: '' })
 
   const handleChangePassword = async () => {
-    if (values.oldPassword) {
-      if (values.confirmPassword !== values.newPassword) {
-        toast.error('New password no match with Confirm New password', optionToastDefaults)
-      } else {
-        const code = await changePassword({
-          oldPass: values.oldPassword,
-          newPass: values.newPassword,
-        })
-        if (code === 0) {
-          toast.success('Change Password success')
-          setValues({ oldPassword: '', confirmPassword: '', newPassword: '' })
-        }
+    if (values.confirmPassword !== values.newPassword) {
+      toast.error('New password no match with Confirm New password', optionToastDefaults)
+    } else {
+      const code = await changePassword({
+        oldPass: values.oldPassword,
+        newPass: values.newPassword,
+      })
+      if (code === 0) {
+        toast.success('Change Password success')
+        setValues({ oldPassword: '', confirmPassword: '', newPassword: '' })
       }
-    } else toast.error('Old password is required', optionToastDefaults)
+    }
   }
 
   const handleChange = (event) => {

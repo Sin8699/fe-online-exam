@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
 // material
 import {
   Card,
@@ -9,16 +10,14 @@ import {
   Button,
   Dialog,
   TableRow,
-  Snackbar,
   TableCell,
   TableBody,
   Container,
   Typography,
   IconButton,
   TableContainer,
-  TablePagination,
+  TablePagination
 } from '@material-ui/core'
-import MuiAlert from '@material-ui/core/Alert'
 // icon
 import { Icon } from '@iconify/react'
 import plusFill from '@iconify/icons-eva/plus-fill'
@@ -28,6 +27,7 @@ import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill'
 import Page from '../components/Page'
 import Scrollbar from '../components/Scrollbar'
 import MenuAction from '../components/MenuAction'
+import Loader from '../components/Loader'
 import TestKitModal from '../components/Modal/testkit'
 import SearchNotFound from '../components/SearchNotFound'
 import { TableListHead, TableListToolbar, TablePaginationActions } from '../components/table'
@@ -35,6 +35,7 @@ import { TableListHead, TableListToolbar, TablePaginationActions } from '../comp
 import useAxios from '../hooks/useAxios'
 import { renderAction } from '../utils/MenuAction/actionTestKit'
 import { getComparator, applySortFilter } from '../utils/filter'
+import { toast } from 'react-toastify'
 //constant
 import TABLE_HEAD from '../constants/TableHead/testkit'
 import { TYPE_MODAL } from '../constants/modal'
@@ -43,13 +44,9 @@ import { TEST_KIT_LIST } from '../api/test-kit'
 
 //----------------------------------------------------------------
 
-const PositionAlert = { vertical: 'top', horizontal: 'center' }
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
-})
-
 const TestKitManage = () => {
+  const navigate = useNavigate()
+
   const [data, setData] = useState([])
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
@@ -58,11 +55,10 @@ const TestKitManage = () => {
   const [itemSelected, setItemSelected] = useState({})
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [anchorEl, setAnchorEl] = useState(null)
-  const [open, setOpen] = useState(false)
   const [typeModal, setTypeModal] = useState()
   const [showModal, setShowModal] = useState(false)
 
-  const { response: dataTestKit, fetchData: getTestKit } = useAxios(TEST_KIT_LIST())
+  const { response: dataTestKit, loading: loadingData, fetchData: getTestKit } = useAxios(TEST_KIT_LIST())
 
   useEffect(() => {
     setData(dataTestKit || [])
@@ -87,19 +83,15 @@ const TestKitManage = () => {
     setPage(0)
   }
 
-  //Alert
-  const handleCloseAlert = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    setOpen(false)
+  //modal
+  const handleCloseModal = () => {
+    setShowModal(false)
   }
 
-  //modal
-  const handleCloseModal = useCallback(() => {
-    setShowModal(false)
+  const onSuccessAction = () => {
     getTestKit()
-  }, [getTestKit])
+    setShowModal(false)
+  }
 
   const listActions = renderAction({
     onEdit: () => {
@@ -107,10 +99,14 @@ const TestKitManage = () => {
       setTypeModal(TYPE_MODAL.Edit)
       setShowModal(true)
     },
+    onEditQuestion: () => {
+      setAnchorEl(null)
+      navigate(`/dashboard/edittestkit/${itemSelected.id}`)
+    },
     onDelete: () => {
       setAnchorEl(null)
-      setOpen(true)
-    },
+      toast.error('Feature not available')
+    }
   })
 
   const filteredTestKits = applySortFilter(data, getComparator(order, orderBy), filterName, 'course')
@@ -118,22 +114,6 @@ const TestKitManage = () => {
 
   return (
     <Page title="Test Kit | Online Exam-UI">
-      <Snackbar anchorOrigin={PositionAlert} key={'top-center'} open={open} autoHideDuration={3000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
-          Forbidden!!!
-        </Alert>
-      </Snackbar>
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-        PaperProps={{ sx: { width: 160, maxWidth: '100%' } }}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        {anchorEl && <MenuAction listActions={listActions} />}
-      </Menu>
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
@@ -148,7 +128,7 @@ const TestKitManage = () => {
             }}
             startIcon={<Icon icon={plusFill} />}
           >
-            New Test kit
+            new test kit
           </Button>
         </Stack>
 
@@ -159,15 +139,25 @@ const TestKitManage = () => {
               <Table stickyHeader>
                 <TableListHead isSelectedAll={false} order={order} orderBy={orderBy} headLabel={TABLE_HEAD} onRequestSort={handleRequestSort} />
                 <TableBody>
+                  {loadingData && data.length === 0 && (
+                    <TableRow>
+                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                        <Loader />
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {filteredTestKits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, description, subject, course, duration, startDate } = row
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox">
-                        <TableCell align="left">{description}</TableCell>
+                        <TableCell align="left">{id}</TableCell>
+                        <TableCell align="left">
+                          {String(description).substr(0, 20)} {description.length > 20 ? '...' : ''}
+                        </TableCell>
                         <TableCell align="left">{subject}</TableCell>
                         <TableCell align="left">{course}</TableCell>
                         <TableCell align="left">{duration} minutes</TableCell>
-                        <TableCell align="left">{dayjs(startDate).format('DD-MM-YYYY HH:MM')}</TableCell>
+                        <TableCell align="left">{dayjs(startDate).format('DD-MM-YYYY HH:MM a')}</TableCell>
 
                         <TableCell align="right">
                           <IconButton
@@ -189,7 +179,7 @@ const TestKitManage = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {data.length === 0 && (
+                  {data.length === 0 && !loadingData && (
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Icon icon={slashFill} style={{ fontSize: 50 }} />
@@ -201,7 +191,6 @@ const TestKitManage = () => {
               </Table>
             </TableContainer>
           </Scrollbar>
-
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
             component="div"
@@ -215,8 +204,19 @@ const TestKitManage = () => {
           />
         </Card>
       </Container>
-      <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={() => setShowModal(false)}>
-        <TestKitModal onClose={handleCloseModal} selectedItem={itemSelected} typeModal={typeModal} />
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        PaperProps={{ sx: { width: 160, maxWidth: '100%' } }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        {anchorEl && <MenuAction listActions={listActions} />}
+      </Menu>
+      <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={handleCloseModal}>
+        <TestKitModal selectedItem={itemSelected} typeModal={typeModal} onClose={handleCloseModal} onSuccess={onSuccessAction} />
       </Dialog>
     </Page>
   )
