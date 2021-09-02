@@ -16,7 +16,7 @@ import {
   FormControlLabel
 } from '@material-ui/core'
 //mock
-import data from '../../_mocks_/test-exam'
+import data from '../../_mocks_/client-test'
 
 const LabelQuestion = styled(FormLabel)(({ theme }) => ({
   margin: theme.spacing(1),
