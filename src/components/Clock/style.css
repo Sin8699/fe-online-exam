@@ -1,0 +1,37 @@
+.clock {
+  position: fixed;
+  z-index: 1;
+  right: 0;
+}
+.container {
+  font-size: 30px;
+  font-weight: 700;
+  padding: 3px;
+  /* width: 150px; */
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+}
+
+.normal {
+  background-color: rgba(84, 214, 44, 0.16);
+  color: #229a16;
+}
+.warning {
+  background-color: rgba(255, 193, 7, 0.16);
+  color: #b78103;
+}
+.error {
+  background-color: rgba(255, 72, 66, 0.16);
+  color: #b72136;
+}
+
+.item {
+  text-align: center;
+  width: 47px;
+}
+
+.item-2 {
+  text-align: center;
+  width: 8px;
+}

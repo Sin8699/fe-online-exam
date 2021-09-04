@@ -15,7 +15,7 @@ const ChangePassword = (props) => {
     } else {
       const code = await changePassword({
         oldPass: values.oldPassword,
-        newPass: values.newPassword,
+        newPass: values.newPassword
       })
       if (code === 0) {
         toast.success('Change Password success')
@@ -27,23 +27,39 @@ const ChangePassword = (props) => {
   const handleChange = (event) => {
     setValues({
       ...values,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value
     })
   }
 
   return (
-    <form autoComplete="off" noValidate {...props}>
+    <form autoComplete="off">
       <Card>
         <CardHeader title="Change password" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
             <Grid item md={12} xs={12}>
-              <TextField fullWidth label="Old Password" name="oldPassword" onChange={handleChange} required value={values.oldPassword} variant="outlined" />
+              <TextField
+                fullWidth
+                label="Old Password"
+                name="oldPassword"
+                onChange={handleChange}
+                required
+                value={values.oldPassword}
+                variant="outlined"
+              />
             </Grid>
 
             <Grid item md={12} xs={12}>
-              <TextField fullWidth label="New Password" name="newPassword" onChange={handleChange} required value={values.newPassword} variant="outlined" />
+              <TextField
+                fullWidth
+                label="New Password"
+                name="newPassword"
+                onChange={handleChange}
+                required
+                value={values.newPassword}
+                variant="outlined"
+              />
             </Grid>
             <Grid item md={12} xs={12}>
               <TextField
@@ -63,7 +79,7 @@ const ChangePassword = (props) => {
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            p: 2,
+            p: 2
           }}
         >
           <Button color="primary" variant="contained" onClick={handleChangePassword}>

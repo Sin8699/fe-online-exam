@@ -137,7 +137,13 @@ const TestKitManage = () => {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }} style={{ maxHeight: 'calc(100vh - 370px)' }}>
               <Table stickyHeader>
-                <TableListHead isSelectedAll={false} order={order} orderBy={orderBy} headLabel={TABLE_HEAD} onRequestSort={handleRequestSort} />
+                <TableListHead
+                  isSelectedAll={false}
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  onRequestSort={handleRequestSort}
+                />
                 <TableBody>
                   {loadingData && data.length === 0 && (
                     <TableRow>
@@ -157,7 +163,7 @@ const TestKitManage = () => {
                         <TableCell align="left">{subject}</TableCell>
                         <TableCell align="left">{course}</TableCell>
                         <TableCell align="left">{duration} minutes</TableCell>
-                        <TableCell align="left">{dayjs(startDate).format('DD-MM-YYYY HH:MM a')}</TableCell>
+                        <TableCell align="left">{dayjs(startDate).format('DD-MM-YYYY HH:mm a')}</TableCell>
 
                         <TableCell align="right">
                           <IconButton
@@ -216,7 +222,12 @@ const TestKitManage = () => {
         {anchorEl && <MenuAction listActions={listActions} />}
       </Menu>
       <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={handleCloseModal}>
-        <TestKitModal selectedItem={itemSelected} typeModal={typeModal} onClose={handleCloseModal} onSuccess={onSuccessAction} />
+        <TestKitModal
+          selectedItem={itemSelected}
+          typeModal={typeModal}
+          onClose={handleCloseModal}
+          onSuccess={onSuccessAction}
+        />
       </Dialog>
     </Page>
   )

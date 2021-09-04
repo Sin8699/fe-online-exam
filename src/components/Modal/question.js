@@ -20,7 +20,6 @@ const ModalQuestion = ({ onClose, selectedItem, typeModal, typeQuestion, onSucce
   const { slug } = useParams()
 
   const [formValue, setFormValue] = React.useState({})
-  console.log('formValue: ', formValue)
 
   const { fetchData: createQuestion, loading: create_loading } = useAxios(CREATE_QUESTIONS(), false)
   const { fetchData: updateQuestion, loading: update_loading } = useAxios(UPDATE_QUESTIONS(selectedItem?.id), false)

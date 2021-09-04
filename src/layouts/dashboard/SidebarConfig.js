@@ -4,7 +4,6 @@ import folderFill from '@iconify/icons-eva/folder-fill'
 import searchFill from '@iconify/icons-eva/search-fill'
 import bookOpenFill from '@iconify/icons-eva/book-open-fill'
 import pieChart2Fill from '@iconify/icons-eva/pie-chart-2-fill'
-import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill'
 
 // ----------------------------------------------------------------------
 
@@ -14,34 +13,29 @@ export const sidebarConfig = [
   {
     title: 'dashboard',
     path: '/dashboard/app',
-    icon: getIcon(pieChart2Fill),
+    icon: getIcon(pieChart2Fill)
   },
   {
     title: 'testkit',
     path: '/dashboard/testkit',
-    icon: getIcon(folderFill),
+    icon: getIcon(folderFill)
   },
   {
     title: 'Test user',
     path: '/dashboard/test-user',
-    icon: getIcon(bookOpenFill),
+    icon: getIcon(bookOpenFill)
   },
   {
-    title: 'Online Exam',
-    path: '/dashboard/test-exam',
-    icon: getIcon(shoppingBagFill),
-  },
-  {
-    title: 'find exam subject',
-    path: '/dashboard/find-exam-subject',
-    icon: getIcon(searchFill),
-  },
+    title: 'find exam',
+    path: '/dashboard/find-exam',
+    icon: getIcon(searchFill)
+  }
 ]
 
 export const sidebarConfigForAdmin = [
   {
     title: 'user',
     path: '/dashboard/user',
-    icon: getIcon(peopleFill),
-  },
+    icon: getIcon(peopleFill)
+  }
 ]

@@ -20,11 +20,17 @@ const testkitSchema = Yup.object().shape({
   duration: Yup.number()
     .min(10, 'Duration must be greater than or equal to 10')
     .max(180, 'Duration must be less than or equal to 180')
-    .required('Duration is required'),
+    .required('Duration is required')
+})
+
+const extraInfoTestSchema = Yup.object().shape({
+  fullName: Yup.string().required('Full name is required'),
+  studentId: Yup.string().required('Student ID is required')
 })
 
 const schema = {
   testkitSchema,
+  extraInfoTestSchema
 }
 
 const validateData = (validateChoose, formValue, callback) => {
