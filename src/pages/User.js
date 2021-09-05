@@ -31,6 +31,7 @@ import { useEffect } from "react";
 
 const TABLE_HEAD = [
   { id: "fullname", label: "Full Name", alignRight: false },
+  { id: "email", label: "Email", alignRight: false },
   { id: "role", label: "Role", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
   { id: "" },
@@ -141,7 +142,8 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, fullname, role, status, avatarUrl } = row;
+                      const { id, fullname, role, status, avatarUrl, email } =
+                        row;
 
                       return (
                         <TableRow hover key={id} tabIndex={-1} role="checkbox">
@@ -157,12 +159,13 @@ export default function User() {
                               </Typography>
                             </Stack>
                           </TableCell>
+                          <TableCell align="left">{email}</TableCell>
                           <TableCell align="left">{role}</TableCell>
                           <TableCell align="left">
                             <Label
                               variant="ghost"
                               color={
-                                (status === "banned" && "error") || "success"
+                                (status === "DISABLED" && "error") || "success"
                               }
                             >
                               {sentenceCase(status)}
@@ -170,7 +173,7 @@ export default function User() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <TableMoreMenu />
+                            <TableMoreMenu userSelected={row} users={users} />
                           </TableCell>
                         </TableRow>
                       );

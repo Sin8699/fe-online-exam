@@ -6,6 +6,6 @@ export const GET_ALL_USERS = () => ({
 });
 
 export const UPDATE_USER = (id) => ({
-  method: METHOD.GET,
-  url: `/auth/admin/${id}/status`,
+  method: METHOD.PATCH,
+  url: `/auth/admin/${id}`,
 });
