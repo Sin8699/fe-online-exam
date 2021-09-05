@@ -1,6 +1,6 @@
-import { METHOD } from './config/method'
+import { METHOD } from "./config/method";
 
 export const FORM_CONTACT_LIST = () => ({
   method: METHOD.GET,
-  url: '',
-})
+  url: "form-contract",
+});
