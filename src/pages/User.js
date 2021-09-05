@@ -1,17 +1,12 @@
 import { filter } from "lodash";
-import { Icon } from "@iconify/react";
 import { sentenceCase } from "change-case";
 import { useState } from "react";
-import plusFill from "@iconify/icons-eva/plus-fill";
-import { Link as RouterLink } from "react-router-dom";
 // material
 import {
   Card,
   Table,
   Stack,
   Avatar,
-  Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -25,18 +20,17 @@ import Page from "../components/Page";
 import Label from "../components/Label";
 import Scrollbar from "../components/Scrollbar";
 import SearchNotFound from "../components/SearchNotFound";
-import {
-  TableListHead,
-  TableListToolbar,
-  TableMoreMenu,
-} from "../components/table";
+import { TableListHead, TableMoreMenu } from "../components/table";
 //
 import { useSelector } from "react-redux";
+import { actionTypesUsers } from "../redux/action/users";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: "name", label: "Name", alignRight: false },
+  { id: "fullname", label: "Full Name", alignRight: false },
   { id: "role", label: "Role", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
   { id: "" },
@@ -70,7 +64,8 @@ function applySortFilter(array, comparator, query) {
   if (query) {
     return filter(
       array,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (_user) =>
+        _user.fullname.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
   return stabilizedThis.map((el) => el[0]);
@@ -79,44 +74,22 @@ function applySortFilter(array, comparator, query) {
 export default function User() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState("name");
-  const [filterName, setFilterName] = useState("");
+  const [orderBy, setOrderBy] = useState("fullname");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const { users } = useSelector((state) => state.userList);
+  const { users = [] } = useSelector((state) => state.userList);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (users.length === 0) {
+      dispatch({ type: actionTypesUsers.REQUEST_USERS_DATA });
+    }
+  }, [dispatch, users.length]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -128,17 +101,13 @@ export default function User() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
   const filteredUsers = applySortFilter(
     users,
     getComparator(order, orderBy),
-    filterName
+    ""
   );
 
   const isUserNotFound = filteredUsers.length === 0;
@@ -155,59 +124,28 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New User
-          </Button>
         </Stack>
 
         <Card>
-          <TableListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <TableListHead
-                  isSelectedAll
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={users.length}
-                  numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { id, fullname, role, status, avatarUrl } = row;
-                      const isItemSelected = selected.indexOf(fullname) !== -1;
 
                       return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, fullname)}
-                            />
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
+                        <TableRow hover key={id} tabIndex={-1} role="checkbox">
+                          <TableCell component="th" scope="row">
                             <Stack
                               direction="row"
                               alignItems="center"
@@ -247,7 +185,7 @@ export default function User() {
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
+                        <SearchNotFound searchQuery={""} />
                       </TableCell>
                     </TableRow>
                   </TableBody>
