@@ -6,7 +6,7 @@ import { Card, Typography } from "@material-ui/core";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";
 import useAxios from "../../../hooks/useAxios";
-import { TEST_KIT_LIST } from "../../../api/test-kit";
+import { TEST_KIT_LIST_BY_ADMIN } from "../../../api/test-kit";
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function AppItemOrders() {
-  const { response: resSubjects = [] } = useAxios(TEST_KIT_LIST());
+  const { response: resSubjects = [] } = useAxios(TEST_KIT_LIST_BY_ADMIN());
 
   return (
     <RootStyle>
