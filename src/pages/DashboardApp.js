@@ -1,7 +1,7 @@
 // material
-import { Box, Grid, Container, Typography } from '@material-ui/core'
+import { Box, Grid, Container, Typography } from "@material-ui/core";
 // components
-import Page from '../components/Page'
+import Page from "../components/Page";
 import {
   AppNewUsers,
   AppBugReports,
@@ -9,11 +9,20 @@ import {
   AppTest,
   // AppCurrentSubject,
   AppConversionRates,
-} from '../components/_dashboard/app'
+} from "../components/_dashboard/app";
+import { useDispatch } from "react-redux";
+import { actionTypesUsers } from '../redux/action/users';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: actionTypesUsers.REQUEST_USERS_DATA });
+  }, [dispatch]);
+
   return (
     <Page title="Dashboard | Online Exam-UI">
       <Container maxWidth="xl">
@@ -44,5 +53,5 @@ export default function DashboardApp() {
         </Grid>
       </Container>
     </Page>
-  )
+  );
 }
