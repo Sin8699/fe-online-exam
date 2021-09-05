@@ -13,6 +13,7 @@ import {
 import { useDispatch } from "react-redux";
 import { actionTypesUsers } from "../redux/action/users";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +24,8 @@ export default function DashboardApp() {
     dispatch({ type: actionTypesUsers.REQUEST_USERS_DATA });
   }, [dispatch]);
 
+  const { profile } = useSelector((state) => state.profileState);
+
   return (
     <Page title="Dashboard | Online Exam-UI">
       <Container maxWidth="xl">
@@ -30,26 +33,26 @@ export default function DashboardApp() {
           <Typography variant="h4">Hi, Welcome back</Typography>
         </Box>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppNewUsers />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppTest />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppItemOrders />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppBugReports />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={12}>
-            <AppConversionRates />
-          </Grid>
-
-          {/* <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject />
-          </Grid> */}
+          {profile?.role === "ADMIN" ? (
+            <>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppNewUsers />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppTest />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppItemOrders />
+              </Grid>
+              <Grid item xs={12} sm={6} md={3}>
+                <AppBugReports />
+              </Grid>
+            </>
+          ) : (
+            <Grid item xs={12} md={6} lg={12}>
+              <AppConversionRates />
+            </Grid>
+          )}
         </Grid>
       </Container>
     </Page>
