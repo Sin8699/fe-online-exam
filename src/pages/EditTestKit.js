@@ -1,135 +1,136 @@
-import { useState } from 'react'
-import { remove } from 'lodash'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 // material
-import { styled } from '@material-ui/styles'
-import { LoadingButton } from '@material-ui/lab'
-import { Card, Stack, Container, Typography, Grid, TextField, Radio, Button, IconButton } from '@material-ui/core'
+import { Stack, Container, Typography, Button, ButtonGroup, Dialog } from '@material-ui/core'
 // icon
 import { Icon } from '@iconify/react'
-import plusFill from '@iconify/icons-eva/plus-fill'
-import trash2Fill from '@iconify/icons-eva/trash-2-fill'
-import navigationOutline from '@iconify/icons-eva/navigation-outline'
+import arrowIosBackFill from '@iconify/icons-eva/arrow-ios-back-fill'
+import radioButtonOnFill from '@iconify/icons-eva/radio-button-on-fill'
+import checkmarkSquare2Fill from '@iconify/icons-eva/checkmark-square-2-fill'
 // components
 import Page from '../components/Page'
-//import Loader from '../components/Loader'
+import Loader from '../components/Loader'
+import QuestionDetail from '../components/Question'
+import ModalQuestion from '../components/Modal/question'
 //api
-//import useAxios from '../hooks/useAxios'
-
-//----------------------------------------------------------------
-import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
-//----------------------------------------------------------------
-
-const GridItem = styled(Grid)({ display: 'flex', alignItems: 'center' })
-const ButtonAddNew = styled(Button)({ margin: 10 })
+import axiosInstance from '../api/config'
+import useAxios from '../hooks/useAxios'
+import { GET_QUESTIONS_BY_TEST_KIT } from '../api/question'
+// constants
+import { TYPE_MODAL } from '../constants/modal'
+import { TYPE_QUESTION } from '../constants/type-question'
 
 //----------------------------------------------------------------
 
 const EditTestKitForm = () => {
   const { slug } = useParams()
-  console.log('slug: ', slug)
 
-  const [questions, setQuestions] = useState([])
+  const [data, setData] = useState([])
+  const [openModal, setOpenModal] = useState(false)
+  const [typeModal, setTypeModal] = useState()
+  const [typeQuestion, setTypeQuestion] = useState()
+  const [itemSelected, setItemSelected] = useState({})
 
-  const handleAddNew = () => {
-    setQuestions([
-      ...questions,
-      {
-        title: '',
-        answer1: '',
-        answer2: '',
-        answer3: '',
-        answer4: '',
-        answer: 0,
-      },
-    ])
+  const {
+    response: resDataQuestion,
+    loading: loadingData,
+    fetchData: getQuestions
+  } = useAxios(GET_QUESTIONS_BY_TEST_KIT(slug))
+
+  useEffect(() => {
+    setData(resDataQuestion?.data || [])
+  }, [resDataQuestion])
+
+  useEffect(() => {
+    getQuestions()
+  }, [slug])
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+  const onSuccessAction = () => {
+    getQuestions()
+    setOpenModal(false)
   }
 
-  const handleDeleteQuestion = (indexDelete) => {
-    const evens = remove(questions, function (n, i) {
-      return i !== indexDelete
-    })
-    setQuestions(evens)
+  const handleNewQuestionSingle = () => {
+    setOpenModal(true)
+    setTypeModal(TYPE_MODAL.Create)
+    setTypeQuestion(TYPE_QUESTION.SINGLE)
   }
 
-  const handleChangeRadio = (indexQuestions) => (event) => {
-    const questionsUpdate = [...questions]
-    questionsUpdate[indexQuestions].answer = +event.target.value
-    setQuestions(questionsUpdate)
+  const handleNewQuestionMultiple = () => {
+    setOpenModal(true)
+    setTypeModal(TYPE_MODAL.Create)
+    setTypeQuestion(TYPE_QUESTION.MULTIPLE)
   }
 
-  const handleChangeAnswer = (key, indexQuestions) => (event) => {
-    const questionsUpdate = [...questions]
-    questionsUpdate[indexQuestions][key] = event.target.value
-    setQuestions(questionsUpdate)
+  const handleEditQuestion = (item) => {
+    setOpenModal(true)
+    setTypeModal(TYPE_MODAL.Edit)
+    setTypeQuestion(item.type)
+    setItemSelected(item)
   }
 
-  //----------------------------------------------------------------
-  const navigate = useNavigate()
-  const [fakeLoading, setFakeLoading] = useState(false)
-  const handleSubmit = () => {
-    setFakeLoading(true)
-    setTimeout(() => {
-      setFakeLoading(false)
-      toast.success('Submit success')
-    }, 3000)
-    setTimeout(() => {
-      navigate('/dashboard/testkit', { replace: true })
-    }, 4000)
+  const handleDeleteQuestion = (item) => {
+    const { id } = item
+    axiosInstance
+      .delete(`questions/${id}?testkitid=${slug}`)
+      .then(() => getQuestions())
+      .catch((err) => console.log(err))
   }
 
   return (
-    <Page title="New Test Kit">
+    <Page title="Edit Test Kit">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+          <Button
+            variant="contained"
+            color="secondary"
+            startIcon={<Icon icon={arrowIosBackFill} />}
+            component={RouterLink}
+            to="/dashboard/testkit"
+          >
+            Back
+          </Button>
           <Typography variant="h4" gutterBottom>
-            Test Kit {slug}
+            Test Kit Code {slug}
           </Typography>
-          <LoadingButton variant="contained" color="secondary" startIcon={<Icon icon={navigationOutline} />} onClick={handleSubmit} loading={fakeLoading}>
-            Submit
-          </LoadingButton>
         </Stack>
-
-        {questions.map((item, index) => (
-          <Card key={index} style={{ marginTop: 10 }}>
-            <Grid container spacing={2} style={{ padding: 10 }}>
-              <GridItem item xs={12}>
-                <TextField fullWidth label={`Question ${index + 1}`} onChange={handleChangeAnswer('title', index)} />
-                <IconButton style={{ margin: '0 5px' }} onClick={() => handleDeleteQuestion(index)}>
-                  <Icon icon={trash2Fill} />
-                </IconButton>
-              </GridItem>
-              <GridItem item xs={6}>
-                <Radio value={0} checked={item.answer === 0} onChange={handleChangeRadio(index)} />
-                <TextField fullWidth label="Answer 1" onChange={handleChangeAnswer('answer1', index)} />
-              </GridItem>
-              <GridItem item xs={6}>
-                <Radio value={1} checked={item.answer === 1} onChange={handleChangeRadio(index)} />
-                <TextField fullWidth label="Answer 2" onChange={handleChangeAnswer('answer2', index)} />
-              </GridItem>
-              <GridItem item xs={6}>
-                <Radio value={2} checked={item.answer === 2} onChange={handleChangeRadio(index)} />
-                <TextField fullWidth label="Answer 3" onChange={handleChangeAnswer('answer3', index)} />
-              </GridItem>
-              <GridItem item xs={6}>
-                <Radio value={3} checked={item.answer === 3} onChange={handleChangeRadio(index)} />
-                <TextField fullWidth label="Answer 4" onChange={handleChangeAnswer('answer4', index)} />
-              </GridItem>
-              <GridItem item xs={12}>
-                <Stack direction="row" justifyContent="flex-end" style={{ width: '100%' }}>
-                  <TextField label="Point" />
-                </Stack>
-              </GridItem>
-            </Grid>
-          </Card>
+        {loadingData && data.length === 0 && <Loader />}
+        {(data || []).map((item) => (
+          <QuestionDetail
+            key={item.id}
+            question={item}
+            onEdit={() => handleEditQuestion(item)}
+            onDelete={() => handleDeleteQuestion(item)}
+          />
         ))}
-        <div style={{ textAlign: 'right' }}>
-          <ButtonAddNew variant="contained" startIcon={<Icon icon={plusFill} />} onClick={handleAddNew}>
-            Add new question
-          </ButtonAddNew>
-        </div>
+        <Stack justifyContent="flex-end" alignItems="center" style={{ margin: '20px 10px 20px 0' }}>
+          <Typography variant="h4" style={{ marginRight: 5, color: '#00AB55' }}>
+            New question
+          </Typography>
+          <ButtonGroup variant="outlined">
+            <Button startIcon={<Icon icon={radioButtonOnFill} />} onClick={handleNewQuestionSingle}>
+              single
+            </Button>
+            <Button endIcon={<Icon icon={checkmarkSquare2Fill} />} onClick={handleNewQuestionMultiple}>
+              multiple
+            </Button>
+          </ButtonGroup>
+        </Stack>
       </Container>
+      <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={openModal} onClose={handleCloseModal}>
+        <ModalQuestion
+          selectedItem={itemSelected}
+          typeModal={typeModal}
+          typeQuestion={typeQuestion}
+          onClose={handleCloseModal}
+          onSuccess={onSuccessAction}
+        />
+      </Dialog>
     </Page>
   )
 }

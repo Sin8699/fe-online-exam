@@ -1,0 +1,4 @@
+export const TYPE_QUESTION = {
+  SINGLE: 'SINGLE',
+  MULTIPLE: 'MULTIPLE'
+}

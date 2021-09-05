@@ -5,8 +5,8 @@ import { alpha, styled } from '@material-ui/core/styles'
 import { Card, Typography } from '@material-ui/core'
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber'
-import { TEST_KIT_LIST } from '../../../api/test-kit'
-import useAxios from '../../../hooks/useAxios'
+// import { TEST_KIT_LIST } from '../../../api/test-kit'
+// import useAxios from '../../../hooks/useAxios'
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ const RootStyle = styled(Card)(({ theme }) => ({
   textAlign: 'center',
   padding: theme.spacing(5, 0),
   color: theme.palette.primary.darker,
-  backgroundColor: theme.palette.primary.lighter,
+  backgroundColor: theme.palette.primary.lighter
 }))
 
 const IconWrapperStyle = styled('div')(({ theme }) => ({
@@ -28,21 +28,18 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   marginBottom: theme.spacing(3),
   color: theme.palette.primary.dark,
-  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0)} 0%, ${alpha(theme.palette.primary.dark, 0.24)} 100%)`,
+  backgroundImage: `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 0)} 0%, ${alpha(theme.palette.primary.dark, 0.24)} 100%)`
 }))
 
 // ----------------------------------------------------------------------
 
 export default function AppTest() {
-  const { response: resClientTest } = useAxios(TEST_KIT_LIST())
-
-  const dataTest = (resClientTest || {}).data || []
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(dataTest.length || 0)}</Typography>
+      <Typography variant="h3">{fShortenNumber(0)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Test
       </Typography>

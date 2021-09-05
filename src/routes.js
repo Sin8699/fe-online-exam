@@ -35,9 +35,9 @@ export default function Router() {
         { path: 'test-user', element: <TestUserManager /> },
         { path: 'testkit', element: <TestKitManage /> },
         { path: 'edittestkit/:slug', element: <TestKitForm /> },
-        { path: 'test-exam', element: <TestExam /> },
-        { path: 'find-exam-subject', element: <FindExamSubject /> },
-      ],
+        { path: 'test-exam/:id', element: <TestExam /> },
+        { path: 'find-exam', element: <FindExamSubject /> }
+      ]
     },
     {
       path: '/',
@@ -52,10 +52,10 @@ export default function Router() {
         // { path: 'reset-password', element: <ResetPassword /> },
         { path: '404', element: <NotFound /> },
         { path: '/', element: <Navigate to="/dashboard" /> },
-        { path: '*', element: <Navigate to="/404" /> },
-      ],
+        { path: '*', element: <Navigate to="/404" /> }
+      ]
     },
 
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '*', element: <Navigate to="/404" replace /> }
   ])
 }

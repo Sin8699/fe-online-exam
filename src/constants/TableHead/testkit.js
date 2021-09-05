@@ -1,4 +1,5 @@
 const TABLE_HEAD = [
+  { id: 'id', label: 'Code', alignRight: false },
   { id: 'description', label: 'Description', alignRight: false },
   { id: 'subject', label: 'Subject', alignRight: false },
   { id: 'courses', label: 'Course', alignRight: false },
