@@ -5,6 +5,8 @@ import { alpha, styled } from "@material-ui/core/styles";
 import { Card, Typography } from "@material-ui/core";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";
+import useAxios from "../../../hooks/useAxios";
+import { TEST_KIT_LIST } from "../../../api/test-kit";
 
 // ----------------------------------------------------------------------
 
@@ -34,13 +36,17 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function AppItemOrders({ total = 0 }) {
+export default function AppItemOrders() {
+  const { response: resSubjects = [] } = useAxios(TEST_KIT_LIST());
+
   return (
     <RootStyle>
       <IconWrapperStyle>
         <Icon icon={windowsFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(2)}</Typography>
+      <Typography variant="h3">
+        {fShortenNumber(resSubjects?.length || 0)}
+      </Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         TestKit
       </Typography>
