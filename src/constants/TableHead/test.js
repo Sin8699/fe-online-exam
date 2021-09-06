@@ -1,10 +1,11 @@
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'subject', label: 'Subject', alignRight: false },
-  { id: 'course', label: 'Course', alignRight: false },
-  { id: 'score', label: 'Total score', alignRight: false },
-  { id: 'test_kit_id', label: 'Test_kit', alignRight: false },
-  { id: '' },
-];
+  { id: 'studentId', label: 'Student ID', alignCenter: false },
+  { id: 'name', label: 'Name', alignCenter: false },
+  { id: 'status', label: 'Status', alignCenter: false },
+  { id: 'totalScore', label: 'Total score', alignCenter: true },
+  { id: 'testKitId', label: 'Testkit ID', alignCenter: true },
+  { id: 'createdAt', label: 'Created at', alignCenter: false },
+  { id: '' }
+]
 
-export default TABLE_HEAD;
+export default TABLE_HEAD

@@ -14,6 +14,7 @@ import TestKitForm from './pages/EditTestKit'
 import VerifyEmailSuccess from './pages/VerifyEmailSuccess'
 import VerifyEmailError from './pages/VerifyEmailError'
 import TestUserManager from './pages/TestUser'
+import ManagerTestUserByOwner from './pages/TestsByOwner'
 // import ResetPassword from './pages/ResetPassword'
 import LoginGoogleSuccess from './pages/LoginGoogleSuccess'
 import ForgotPassword from './pages/ForgotPassword'
@@ -33,6 +34,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: 'test-user', element: <TestUserManager /> },
+        { path: 'tests-by-owner', element: <ManagerTestUserByOwner /> },
         { path: 'testkit', element: <TestKitManage /> },
         { path: 'edittestkit/:slug', element: <TestKitForm /> },
         { path: 'test-exam/:id', element: <TestExam /> },

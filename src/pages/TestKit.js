@@ -222,12 +222,7 @@ const TestKitManage = () => {
         {anchorEl && <MenuAction listActions={listActions} />}
       </Menu>
       <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={handleCloseModal}>
-        <TestKitModal
-          selectedItem={itemSelected}
-          typeModal={typeModal}
-          onClose={handleCloseModal}
-          onSuccess={onSuccessAction}
-        />
+        <TestKitModal selectedItem={itemSelected} typeModal={typeModal} onClose={handleCloseModal} onSuccess={onSuccessAction} />
       </Dialog>
     </Page>
   )

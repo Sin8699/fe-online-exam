@@ -1,66 +1,56 @@
-import React from 'react';
-//material
-import { DialogTitle, DialogContent, DialogActions, Grid, Button, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
-import { makeStyles, styled } from '@material-ui/styles';
-//icon
-import { Icon } from '@iconify/react';
-import closeFill from '@iconify/icons-eva/close-fill';
-
-const useStyles = makeStyles(() => ({
-  itemQuestion: { marginTop: 10, borderRadius: 15 },
-  detailItemQuestion: { margin: 5 },
-  answerCorrect: { color: '#16b55d' },
-  answerWrong: { color: '#ff4842' },
-}));
-const ModalHeader = styled(DialogTitle)({ padding: 20, fontSize: 18, fontWeight: 600, borderBottom: '1px solid rgb(202, 207, 211)' });
-const ModalBody = styled(DialogContent)({ padding: '0 20px 20px 20px' });
-const ModalFooter = styled(DialogActions)({ borderTop: '1px solid rgb(202, 207, 211)', padding: '10px 20px' });
+import React from 'react'
+import { Grid, Button, Radio, Checkbox, Stack, Typography } from '@material-ui/core'
+import { ModalHeader, ModalBody, ModalFooter } from '../../assets/styled/Modal'
+import { ShowPoint } from '../../assets/styled/Question'
+import Loader from '../Loader'
+import { Icon } from '@iconify/react'
+import closeFill from '@iconify/icons-eva/close-fill'
+import { TYPE_QUESTION } from '../../constants/type-question'
+import useAxios from '../../hooks/useAxios'
+import { GET_DETAIL_CLIENT_TEST } from '../../api/client-test'
 
 const TestModal = ({ onClose, selectedItem }) => {
-  const classes = useStyles();
+  const { extraInfo } = selectedItem
+  const { response: data, loading: loadingData } = useAxios(GET_DETAIL_CLIENT_TEST(selectedItem.id))
+
   return (
     <>
       <ModalHeader>
-        {selectedItem.name + ' Test'}
+        {extraInfo.studentId + ' - ' + extraInfo.fullName}
         <Icon icon={closeFill} width={24} height={24} style={{ cursor: 'pointer', float: 'right', color: '#CACFD3' }} onClick={onClose} />
       </ModalHeader>
       <ModalBody>
-        {(selectedItem?.test_kit_question || []).map((itemSelect, index) => (
-          <div
-            key={index}
-            className={classes.itemQuestion}
-            style={{ border: `1px solid ${itemSelect.answerCorrect === itemSelect.answerUser ? '#16b55d' : '#ff4842'}` }}
-          >
-            <Grid container spacing={1} className={classes.detailItemQuestion}>
-              <Grid item xs={12}>
-                <b>{`Question ${index + 1} : `}</b>
-                {`${itemSelect?.title}`}
+        {loadingData ? (
+          <Loader />
+        ) : (
+          (data || []).map((item) => (
+            <div key={item.id} style={{ marginTop: 10, borderRadius: 15, border: '1px solid' }}>
+              <Grid container spacing={1} style={{ margin: 5 }}>
+                <Grid item xs={12}>
+                  <Stack spacing={1} direction="row" alignItems="center">
+                    <ShowPoint>{item.Question.score} point</ShowPoint>
+                    <Typography variant="h5">{item.Question.title}</Typography>
+                  </Stack>
+                </Grid>
+                <Grid item xs={12}>
+                  {(item.Question.choices || []).map((itemChoices, index) => {
+                    const is_checked = item.answer.includes(index)
+                    return (
+                      <Stack key={index} direction="row" alignItems="center">
+                        {item.Question.type === TYPE_QUESTION.SINGLE ? (
+                          <Radio checked={is_checked} disabled />
+                        ) : (
+                          <Checkbox checked={is_checked} disabled />
+                        )}
+                        <Typography variant="subtitle1">{itemChoices.answer}</Typography>
+                      </Stack>
+                    )
+                  })}
+                </Grid>
               </Grid>
-              {(itemSelect?.choices || []).map((choiceValue, index) => {
-                const userAnswer = itemSelect?.answerUser;
-                const correctAnswer = itemSelect?.answerCorrect;
-                const isWrong = userAnswer === index && correctAnswer !== index;
-                const isCorrect = correctAnswer === index;
-                return (
-                  <Grid key={index} item xs={6}>
-                    <RadioGroup value={userAnswer}>
-                      <FormControlLabel
-                        value={index}
-                        className={isWrong ? classes.answerWrong : isCorrect ? classes.answerCorrect : 'null'}
-                        control={<Radio color={isWrong ? 'error' : 'success'} />}
-                        label={choiceValue}
-                      />
-                    </RadioGroup>
-                  </Grid>
-                );
-              })}
-              <Grid item xs={12}>
-                <b style={{ color: '#16b55d' }}>{`Question correct: `}</b>
-                {`${itemSelect?.choices[itemSelect?.answerCorrect]}`}
-              </Grid>
-            </Grid>
-          </div>
-        ))}
+            </div>
+          ))
+        )}
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={onClose}>
@@ -68,7 +58,7 @@ const TestModal = ({ onClose, selectedItem }) => {
         </Button>
       </ModalFooter>
     </>
-  );
-};
+  )
+}
 
-export default React.memo(TestModal);
+export default React.memo(TestModal)

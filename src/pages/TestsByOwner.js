@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import dayjs from 'dayjs'
 import { sentenceCase } from 'change-case'
+import get from 'lodash/get'
 import {
   Card,
   Menu,
@@ -8,67 +9,73 @@ import {
   Stack,
   Dialog,
   TableRow,
+  TableHead,
   TableBody,
   TableCell,
   Container,
   Typography,
   IconButton,
+  OutlinedInput,
   TableContainer,
   TablePagination
 } from '@material-ui/core'
 import { Icon } from '@iconify/react'
+import { styled } from '@material-ui/core/styles'
+import { LoadingButton } from '@material-ui/lab'
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill'
 import slashFill from '@iconify/icons-eva/slash-fill'
 import Page from '../components/Page'
 import Label from '../components/Label'
-import Loader from '../components/Loader'
 import Scrollbar from '../components/Scrollbar'
 import TestModal from '../components/Modal/test'
 import MenuAction from '../components/MenuAction'
-import SearchNotFound from '../components/SearchNotFound'
-import { TableListHead, TableListToolbar, TablePaginationActions } from '../components/table'
+import { TablePaginationActions } from '../components/table'
 import { renderAction } from '../utils/MenuAction/actionTest'
-import { getComparator, applySortFilter } from '../utils/filter'
 import TABLE_HEAD from '../constants/TableHead/test'
-import useAxios from '../hooks/useAxios'
-import { GET_ALL_CLIENT_TEST } from '../api/client-test'
+import axios from '../api/config'
+
+const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
+  width: 150,
+  margin: 30,
+  boxShadow: theme.customShadows.z8,
+  '& fieldset': { borderWidth: `1px !important`, borderColor: `${theme.palette.grey[500_32]} !important` }
+}))
 
 //----------------------------------------------------------------
 
-const TestUserManager = () => {
+const ManagerTestUserByOwner = () => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(0)
-  const [order, setOrder] = useState('asc')
-  const [orderBy, setOrderBy] = useState('score')
-  const [filterName, setFilterName] = useState('')
-  const [moreActionSelectedItem, setMoreActionSelectedItem] = useState({})
+  const [selectedItem, setSelectedItem] = useState({})
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [anchorEl, setAnchorEl] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [id, setId] = useState()
 
-  const { response: dataAllTest, loading: loadingData } = useAxios(GET_ALL_CLIENT_TEST())
+  const getData = () => {
+    setLoading(true)
+    axios
+      .get(`tests/all?testKitId=${id}`)
+      .then((res) => setData(get(res, 'data.data') || []))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false))
+  }
 
-  useEffect(() => {
-    setData(dataAllTest?.data || [])
-  }, [dataAllTest])
+  const handleButtonGet = () => {
+    getData()
+  }
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
+  const onChangeId = (e) => {
+    setId(e.target.value)
   }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
-  }
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value)
   }
 
   const listActions = renderAction({
@@ -77,22 +84,16 @@ const TestUserManager = () => {
       onShowModal()
     }
   })
-
   const onShowModal = () => {
     setShowModal(true)
     setAnchorEl(null)
   }
-
   const onCloseModal = useCallback(() => {
     setShowModal(false)
   }, [])
 
-  const filteredTests = applySortFilter(data, getComparator(order, orderBy), filterName, 'extraInfo.studentId')
-
-  const isTestUserNotFound = filteredTests.length === 0
-
   return (
-    <Page title="Manage Test">
+    <Page title="Manage Response Test">
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -104,39 +105,33 @@ const TestUserManager = () => {
       >
         {anchorEl && <MenuAction listActions={listActions} />}
       </Menu>
-
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Manage My Test
+            Manage Response Test
           </Typography>
         </Stack>
-
         <Card>
-          <TableListToolbar filterName={filterName} onFilterName={handleFilterByName} />
-
+          <SearchStyle value={id || ''} onChange={onChangeId} placeholder="Code test kit" type="number" />
+          <LoadingButton variant="contained" loading={loading} onClick={handleButtonGet}>
+            Get tests
+          </LoadingButton>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }} style={{ maxHeight: 'calc(100vh - 370px)' }}>
               <Table stickyHeader>
-                <TableListHead
-                  isSelectedAll={false}
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  onRequestSort={handleRequestSort}
-                />
-                <TableBody>
-                  {loadingData && data.length === 0 && (
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <Loader />
+                <TableHead>
+                  <TableRow>
+                    {TABLE_HEAD.map((cell) => (
+                      <TableCell key={cell.id} align={cell.alignCenter ? 'center' : 'left'}>
+                        {cell.label}
                       </TableCell>
-                    </TableRow>
-                  )}
-                  {filteredTests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {(data || []).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, extraInfo, status, totalScore, testKitId, createdAt } = row
                     const { studentId, fullName } = extraInfo
-
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox">
                         <TableCell align="left">{studentId}</TableCell>
@@ -146,14 +141,14 @@ const TestUserManager = () => {
                             {sentenceCase(status)}
                           </Label>
                         </TableCell>
-                        <TableCell align="left">{totalScore}</TableCell>
-                        <TableCell align="left">{testKitId}</TableCell>
+                        <TableCell align="center">{totalScore}</TableCell>
+                        <TableCell align="center">{testKitId}</TableCell>
                         <TableCell align="left">{dayjs(createdAt).format('DD-MM-YYYY HH:mm a')}</TableCell>
                         <TableCell align="right">
                           <IconButton
                             onClick={(e) => {
                               setAnchorEl(e.currentTarget)
-                              setMoreActionSelectedItem(row)
+                              setSelectedItem(row)
                             }}
                           >
                             <Icon icon={moreVerticalFill} width={20} height={20} />
@@ -162,7 +157,7 @@ const TestUserManager = () => {
                       </TableRow>
                     )
                   })}
-                  {data.length === 0 && !loadingData && (
+                  {data.length === 0 && (
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Icon icon={slashFill} style={{ fontSize: 50 }} />
@@ -171,19 +166,9 @@ const TestUserManager = () => {
                     </TableRow>
                   )}
                 </TableBody>
-                {isTestUserNotFound && data.length !== 0 && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
               </Table>
             </TableContainer>
           </Scrollbar>
-
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
             component="div"
@@ -199,11 +184,11 @@ const TestUserManager = () => {
       </Container>
       {showModal && (
         <Dialog disableEnforceFocus maxWidth="md" fullWidth open={showModal} onClose={onCloseModal}>
-          <TestModal onClose={onCloseModal} selectedItem={moreActionSelectedItem} />
+          <TestModal onClose={onCloseModal} selectedItem={selectedItem} />
         </Dialog>
       )}
     </Page>
   )
 }
 
-export default TestUserManager
+export default ManagerTestUserByOwner
