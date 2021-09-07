@@ -27,7 +27,7 @@ const useAxios = ({ url, method, body = null }, autoCallApi = true) => {
         })
         .catch((err) => {
           setError(err)
-          toast.error(err.message, {
+          toast.error(err.message || 'Error', {
             position: 'bottom-right',
             autoClose: 5000,
             hideProgressBar: false,
