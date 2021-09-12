@@ -10,28 +10,33 @@ import { Link, Stack, TextField, IconButton, InputAdornment } from '@material-ui
 import { LoadingButton } from '@material-ui/lab'
 import { login } from '../../../api/config'
 import { toast } from 'react-toastify'
+import { loadFromStorage, removeFromStorage } from '../../../utils/storage'
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate()
+  const link = loadFromStorage('linkExam')
   const [showPassword, setShowPassword] = useState(false)
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().required('Password is required')
   })
 
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
+      password: ''
     },
     validationSchema: LoginSchema,
     onSubmit: async ({ email, password }) => {
       try {
         await login({ email, password })
-        navigate('/dashboard', { replace: true })
+        if (link) {
+          removeFromStorage('linkExam')
+          navigate(link, { replace: true })
+        } else navigate('/dashboard', { replace: true })
       } catch (error) {
         console.log('error', error)
         toast.error(error.message, {
@@ -41,10 +46,10 @@ export default function LoginForm() {
           closeOnClick: false,
           pauseOnHover: false,
           draggable: false,
-          progress: undefined,
+          progress: undefined
         })
       }
-    },
+    }
   })
 
   const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik
@@ -80,7 +85,7 @@ export default function LoginForm() {
                     <Icon icon={showPassword ? eyeFill : eyeOffFill} />
                   </IconButton>
                 </InputAdornment>
-              ),
+              )
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}

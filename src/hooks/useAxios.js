@@ -46,9 +46,9 @@ const useAxios = ({ url, method, body = null }, autoCallApi = true) => {
   )
 
   useEffect(() => {
-    // let controller = new AbortController()
+    let controller = new AbortController()
     if (autoCallApi) fetchData(body)
-    // return () => controller?.abort()
+    return () => controller.abort()
   }, [autoCallApi, fetchData])
 
   return { response, error, loading, fetchData }

@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // components
 import Page from '../components/Page'
 import { MHidden } from '../components/@material-extend'
+import { loadFromStorage, removeFromStorage } from '../utils/storage'
 
 const RootStyle = styled(Page)(({ theme }) => ({ [theme.breakpoints.up('md')]: { display: 'flex' } }))
 
@@ -17,7 +18,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  margin: theme.spacing(2, 0, 2, 2),
+  margin: theme.spacing(2, 0, 2, 2)
 }))
 
 const ContentStyle = styled('div')(({ theme }) => ({
@@ -29,17 +30,21 @@ const ContentStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   textAlign: 'center',
   alignItems: 'center',
-  padding: theme.spacing(12, 0),
+  padding: theme.spacing(12, 0)
 }))
 
 function LoginGoogleSuccess() {
   const navigate = useNavigate()
   const { token } = useParams()
+  const link = loadFromStorage('linkExam')
 
   React.useEffect(() => {
     if (token) {
       setAuthTokens({ accessToken: token })
-      navigate('/dashboard', { replace: true })
+      if (link) {
+        removeFromStorage('linkExam')
+        navigate(link, { replace: true })
+      } else navigate('/dashboard', { replace: true })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
