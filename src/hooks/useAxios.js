@@ -27,7 +27,7 @@ const useAxios = ({ url, method, body = null }, autoCallApi = true) => {
         })
         .catch((err) => {
           setError(err)
-          toast.error(err.message, {
+          toast.error(err.message || 'Error', {
             position: 'bottom-right',
             autoClose: 5000,
             hideProgressBar: false,
@@ -46,9 +46,9 @@ const useAxios = ({ url, method, body = null }, autoCallApi = true) => {
   )
 
   useEffect(() => {
-    // let controller = new AbortController()
+    let controller = new AbortController()
     if (autoCallApi) fetchData(body)
-    // return () => controller?.abort()
+    return () => controller.abort()
   }, [autoCallApi, fetchData])
 
   return { response, error, loading, fetchData }

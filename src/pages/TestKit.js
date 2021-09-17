@@ -103,6 +103,22 @@ const TestKitManage = () => {
       setAnchorEl(null)
       navigate(`/dashboard/edittestkit/${itemSelected.id}`)
     },
+    onGetLink: (e) => {
+      setAnchorEl(null)
+      const text = `https://online-exam-2021.herokuapp.com/dashboard/test-exam/${itemSelected.id}`
+      if (window.isSecureContext) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            toast.success('Copy successful')
+          })
+          .catch((error) => {
+            toast.error(`Copy failed! ${error}`)
+          })
+      } else {
+        window.prompt('Copy: Ctrl+C, Enter', text)
+      }
+    },
     onDelete: () => {
       setAnchorEl(null)
       toast.error('Feature not available')
@@ -222,12 +238,7 @@ const TestKitManage = () => {
         {anchorEl && <MenuAction listActions={listActions} />}
       </Menu>
       <Dialog disableEnforceFocus maxWidth="sm" fullWidth open={showModal} onClose={handleCloseModal}>
-        <TestKitModal
-          selectedItem={itemSelected}
-          typeModal={typeModal}
-          onClose={handleCloseModal}
-          onSuccess={onSuccessAction}
-        />
+        <TestKitModal selectedItem={itemSelected} typeModal={typeModal} onClose={handleCloseModal} onSuccess={onSuccessAction} />
       </Dialog>
     </Page>
   )

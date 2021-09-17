@@ -59,6 +59,11 @@ export default function FindExamSubject() {
             Tìm kiếm
           </Button>
           {loading && <Loader />}
+          {loading === false && !infoTestKit && (
+            <Typography variant="h5" sx={{ pt: 20 }}>
+              Không tìm thấy bài thi
+            </Typography>
+          )}
           {loading === false && infoTestKit && (
             <Card sx={{ p: 3 }} style={{ minWidth: '80%' }}>
               <Stack spacing={1} alignItems="center" justifyContent="center">

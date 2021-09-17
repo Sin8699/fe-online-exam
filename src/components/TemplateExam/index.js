@@ -1,33 +1,30 @@
 import * as React from 'react'
-import {
-  Box,
-  Grid,
-  Card,
-  Stack,
-  Radio,
-  Button,
-  Divider,
-  Checkbox,
-  Container,
-  TextField,
-  Typography
-} from '@material-ui/core'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import get from 'lodash/get'
+import { Box, Grid, Card, Stack, Radio, Button, Divider, Checkbox, Container, TextField, Typography } from '@material-ui/core'
+import { LoadingButton } from '@material-ui/lab'
 import { ShowPoint } from '../../assets/styled/Question'
 import DialogNotification from '../Modal/notification'
 import { Icon } from '@iconify/react'
 import navigation2Fill from '@iconify/icons-eva/navigation-2-fill'
 import { TYPE_QUESTION } from '../../constants/type-question'
 import validateData from '../../helpers/validationSchema'
+import useAxios from '../../hooks/useAxios'
+import { SUBMIT_TEST } from '../../api/client-test'
 
 function unique(arr) {
   return Array.from(new Set(arr)) //
 }
 
 export default function TemplateClientTest({ infoTest, questions }) {
+  const navigate = useNavigate()
   const [extraInfo, setExtraInfo] = React.useState({})
   const [errors, setErrors] = React.useState({})
-  const [answer, setAnswer] = React.useState()
+  const [answerUser, setAnswerUser] = React.useState([])
   const [openNotification, setOpenNotification] = React.useState(true)
+
+  const { loading: loadingSubmit, fetchData: submitTest } = useAxios(SUBMIT_TEST(), false)
 
   const handleChangeInfoExtra = (key) => (e) => {
     setErrors({ ...errors, [key]: false })
@@ -36,9 +33,15 @@ export default function TemplateClientTest({ infoTest, questions }) {
 
   const handleSubmit = async () => {
     try {
-      await validateData('extraInfoTestSchema', extraInfo, (data) => {
-        console.log(data)
-        console.log(answer)
+      await validateData('extraInfoTestSchema', extraInfo, async (data) => {
+        const dataReq = { fullName: extraInfo.fullName, studentId: extraInfo.studentId, testKitId: infoTest.id, recorded: answerUser }
+        const code = await submitTest(dataReq)
+        if (code === 0) {
+          toast.success('Nộp bài thành công')
+          setTimeout(() => {
+            navigate('/')
+          }, 2000)
+        }
       })
     } catch (errs) {
       setErrors(errs)
@@ -47,25 +50,25 @@ export default function TemplateClientTest({ infoTest, questions }) {
 
   React.useEffect(() => {
     if (questions) {
-      let answerRaw = {}
+      let answerRaw = []
       questions.forEach((element) => {
-        answerRaw = { ...answerRaw, [element.id]: [] }
+        answerRaw = [...answerRaw, { questionId: element.id, answer: [] }]
       })
-      setAnswer(answerRaw)
+      setAnswerUser(answerRaw)
     }
   }, [questions])
 
   const handleChangeAnswer = (type, key, i) => (e) => {
+    const tempAnswer = answerUser.find((ele) => ele.questionId === key)
+    const tempArr = answerUser.filter((item) => item.questionId !== key)
     if (type === TYPE_QUESTION.SINGLE) {
-      setAnswer({
-        ...answer,
-        [key]: [i]
-      })
+      tempAnswer.answer = [i]
+      setAnswerUser([...tempArr, tempAnswer])
     } else {
-      setAnswer({
-        ...answer,
-        [key]: e.target.checked ? unique([...answer[key], i]) : answer[key].filter((item) => item !== i)
-      })
+      e.target.checked
+        ? (tempAnswer.answer = unique([...tempAnswer.answer, i]))
+        : (tempAnswer.answer = tempAnswer.answer.filter((item) => item !== i))
+      setAnswerUser([...tempArr, tempAnswer])
     }
   }
 
@@ -84,9 +87,9 @@ export default function TemplateClientTest({ infoTest, questions }) {
           <Stack justifyContent="space-between" spacing={2} sx={{ mt: 2 }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Typography variant="h2">{infoTest?.subject}</Typography>
-              <Button variant="contained" startIcon={<Icon icon={navigation2Fill} />} onClick={handleSubmit}>
+              <LoadingButton variant="contained" startIcon={<Icon icon={navigation2Fill} />} loading={loadingSubmit} onClick={handleSubmit}>
                 Nộp bài
-              </Button>
+              </LoadingButton>
             </Stack>
             <Typography variant="h6">{infoTest.description}</Typography>
           </Stack>
@@ -124,7 +127,12 @@ export default function TemplateClientTest({ infoTest, questions }) {
                     <Stack key={index2} direction="row" alignItems="center">
                       {questionItem.type === TYPE_QUESTION.SINGLE ? (
                         <Radio
-                          checked={answer?.[questionItem.id][0] === index2}
+                          checked={
+                            get(
+                              answerUser.find((ele) => ele.questionId === questionItem.id),
+                              'answer[0]'
+                            ) === index2
+                          }
                           onChange={handleChangeAnswer(questionItem.type, questionItem.id, index2)}
                         />
                       ) : (

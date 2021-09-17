@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { getAccessToken } from 'axios-jwt'
 import split from 'lodash/split'
 import { isExpired } from './api/config'
+import { saveToStorage } from './utils/storage'
 // ----------------------------------------------------------------------
 //&& !NOT_CHECK_TOKEN.some((route) => pathname.includes(route))
 // ----------------------------------------------------------------------
@@ -23,10 +24,12 @@ export default function App() {
   const accessToken = getAccessToken()
 
   const history = useNavigate()
-  
+
   useEffect(() => {
     const { pathname } = window.location
     const loginByGoogle = (split(pathname, '/')[1] || '') === 'login-success'
+    const exam = (split(pathname, '/')[2] || '') === 'test-exam'
+
     if ((NOT_AUTH.includes(pathname) || loginByGoogle) && !accessToken) {
       history(pathname)
     } else {
@@ -34,6 +37,7 @@ export default function App() {
         window.localStorage.clear()
         history('/login')
       }
+      if (exam) saveToStorage('linkExam', pathname)
     }
   }, [accessToken, history])
 
