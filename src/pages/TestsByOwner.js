@@ -130,7 +130,7 @@ const ManagerTestUserByOwner = () => {
             <ExportToExcel
               apiData={flattenResTestsByOwner(data)}
               fileName={id}
-              disabled={!(id && data && data.length !== 0)}
+              disabled={!(data && data.length !== 0)}
             />
           </Stack>
           <Scrollbar>
@@ -148,13 +148,11 @@ const ManagerTestUserByOwner = () => {
                 <TableBody>
                   {(data || []).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, extraInfo, status, totalScore, testKitId, createdAt, User } = row
-                    const { studentId, fullName } = extraInfo
-                    const { email } = User
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox">
-                        <TableCell align="left">{studentId}</TableCell>
-                        <TableCell align="left">{fullName}</TableCell>
-                        <TableCell align="left">{email}</TableCell>
+                        <TableCell align="left">{extraInfo?.studentId}</TableCell>
+                        <TableCell align="left">{extraInfo?.fullName}</TableCell>
+                        <TableCell align="left">{User?.email}</TableCell>
                         <TableCell align="left">
                           <Label variant="ghost" color="success">
                             {sentenceCase(status)}

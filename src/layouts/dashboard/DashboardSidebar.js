@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux'
 const DRAWER_WIDTH = 280
 
 const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('lg')]: { flexShrink: 0, width: DRAWER_WIDTH },
+  [theme.breakpoints.up('lg')]: { flexShrink: 0, width: DRAWER_WIDTH }
 }))
 
 const AccountStyle = styled('div')(({ theme }) => ({
@@ -26,14 +26,14 @@ const AccountStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
   borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[200],
+  backgroundColor: theme.palette.grey[200]
 }))
 
 // ----------------------------------------------------------------------
 
 DashboardSidebar.propTypes = {
   isOpenSidebar: PropTypes.bool,
-  onCloseSidebar: PropTypes.func,
+  onCloseSidebar: PropTypes.func
 }
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
@@ -41,7 +41,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
   const { profile: userInfo } = useSelector((state) => state.profileState)
 
-  const { fullname = '', role = '', avatar = 'https://media.defense.gov/2020/Oct/25/2002523049/-1/-1/0/201025-M-AB981-003.JPG' } = userInfo
+  const {
+    fullname = '',
+    role = '',
+    avatar = 'https://media.defense.gov/2020/Oct/25/2002523049/-1/-1/0/201025-M-AB981-003.JPG'
+  } = userInfo
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -51,7 +55,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   }, [pathname])
 
   const renderContent = (
-    <Scrollbar sx={{ height: '100%', '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' } }}>
+    <Scrollbar
+      sx={{ height: '100%', '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' } }}
+    >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
           <Logo />
@@ -59,7 +65,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="#">
+        <Link underline="none" component={RouterLink} to="/dashboard/profile">
           <AccountStyle>
             <Avatar src={avatar} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
@@ -76,8 +82,16 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack alignItems="center" spacing={3} sx={{ p: 2.5, pt: 5, borderRadius: 2, position: 'relative', bgcolor: 'grey.200' }}>
-          <Box component="img" src="/static/illustrations/illustration_avatar.png" sx={{ width: 100, position: 'absolute', top: -60, borderRadius: '33%' }} />
+        <Stack
+          alignItems="center"
+          spacing={3}
+          sx={{ p: 2.5, pt: 5, borderRadius: 2, position: 'relative', bgcolor: 'grey.200' }}
+        >
+          <Box
+            component="img"
+            src="/static/illustrations/illustration_avatar.png"
+            sx={{ width: 100, position: 'absolute', top: -60, borderRadius: '33%' }}
+          />
 
           <Button fullWidth href="https://landingpage-online-exam.herokuapp.com/" target="_blank" color="secondary">
             About us
@@ -100,7 +114,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           open
           variant="persistent"
           PaperProps={{
-            sx: { width: DRAWER_WIDTH, bgcolor: 'background.default' },
+            sx: { width: DRAWER_WIDTH, bgcolor: 'background.default' }
           }}
         >
           {renderContent}
