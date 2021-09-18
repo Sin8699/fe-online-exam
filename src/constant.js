@@ -1,5 +1,5 @@
-export const BASE_URL = 'http://localhost:3001/v1/'
-// export const BASE_URL = 'https://wiflyhomework.com/exam-api/v1/'
+// export const BASE_URL = 'http://localhost:3001/v1/'
+export const BASE_URL = 'https://wiflyhomework.com/exam-api/v1/'
 
 export const ROLE_ID = {
   SUPER_ADMIN: '8f00f3b0-9728-4173-861b-d3e689779439',
