@@ -19,9 +19,10 @@ import {
   TableContainer,
   TablePagination
 } from '@material-ui/core'
-import { Icon } from '@iconify/react'
 import { styled } from '@material-ui/core/styles'
 import { LoadingButton } from '@material-ui/lab'
+import { Icon } from '@iconify/react'
+import navigationOutline from '@iconify/icons-eva/navigation-outline'
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill'
 import slashFill from '@iconify/icons-eva/slash-fill'
 import Page from '../components/Page'
@@ -30,6 +31,8 @@ import Scrollbar from '../components/Scrollbar'
 import TestModal from '../components/Modal/test'
 import MenuAction from '../components/MenuAction'
 import { TablePaginationActions } from '../components/table'
+import { ExportToExcel } from '../components/ExportToExcel'
+import { flattenResTestsByOwner } from '../helpers/obj'
 import { renderAction } from '../utils/MenuAction/actionTest'
 import TABLE_HEAD from '../constants/TableHead/test'
 import axios from '../api/config'
@@ -112,10 +115,24 @@ const ManagerTestUserByOwner = () => {
           </Typography>
         </Stack>
         <Card>
-          <SearchStyle value={id || ''} onChange={onChangeId} placeholder="Code test kit" type="number" />
-          <LoadingButton variant="contained" loading={loading} onClick={handleButtonGet}>
-            Get tests
-          </LoadingButton>
+          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+            <div>
+              <SearchStyle value={id || ''} onChange={onChangeId} placeholder="Code test kit" type="number" />
+              <LoadingButton
+                variant="contained"
+                loading={loading}
+                startIcon={<Icon icon={navigationOutline} />}
+                onClick={handleButtonGet}
+              >
+                Get tests
+              </LoadingButton>
+            </div>
+            <ExportToExcel
+              apiData={flattenResTestsByOwner(data)}
+              fileName={id}
+              disabled={!(id && data && data.length !== 0)}
+            />
+          </Stack>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }} style={{ maxHeight: 'calc(100vh - 370px)' }}>
               <Table stickyHeader>
@@ -130,12 +147,14 @@ const ManagerTestUserByOwner = () => {
                 </TableHead>
                 <TableBody>
                   {(data || []).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, extraInfo, status, totalScore, testKitId, createdAt } = row
+                    const { id, extraInfo, status, totalScore, testKitId, createdAt, User } = row
                     const { studentId, fullName } = extraInfo
+                    const { email } = User
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox">
                         <TableCell align="left">{studentId}</TableCell>
                         <TableCell align="left">{fullName}</TableCell>
+                        <TableCell align="left">{email}</TableCell>
                         <TableCell align="left">
                           <Label variant="ghost" color="success">
                             {sentenceCase(status)}
@@ -159,7 +178,7 @@ const ManagerTestUserByOwner = () => {
                   })}
                   {data.length === 0 && (
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <Icon icon={slashFill} style={{ fontSize: 50 }} />
                         <p style={{ fontSize: 20 }}>No data</p>
                       </TableCell>

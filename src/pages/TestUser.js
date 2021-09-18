@@ -164,7 +164,7 @@ const TestUserManager = () => {
                   })}
                   {data.length === 0 && !loadingData && (
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <Icon icon={slashFill} style={{ fontSize: 50 }} />
                         <p style={{ fontSize: 20 }}>No data</p>
                       </TableCell>
@@ -174,7 +174,7 @@ const TestUserManager = () => {
                 {isTestUserNotFound && data.length !== 0 && (
                   <TableBody>
                     <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
                         <SearchNotFound searchQuery={filterName} />
                       </TableCell>
                     </TableRow>
